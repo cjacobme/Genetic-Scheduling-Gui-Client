@@ -24,7 +24,7 @@
 
         <assertj.version>3.24.2</assertj.version>
         <commons-lang3.version>3.13.0</commons-lang3.version>
-        <genetics-server.version>1.0-SNAPSHOT</genetics-server.version>
+        <schedule-api.version>1.0-SNAPSHOT</schedule-api.version>
         <javafx.version>20.0.2</javafx.version>
         <javafx-weaver.version>1.3.0</javafx-weaver.version>
     </properties>
@@ -33,8 +33,8 @@
         <!-- application -->
         <dependency>
             <groupId>cj.software.experiments.genetics.schedule</groupId>
-            <artifactId>schedule-demo</artifactId>
-            <version>${genetics-server.version}</version>
+            <artifactId>schedule-api</artifactId>
+            <version>${schedule-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
