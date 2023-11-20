@@ -1,5 +1,6 @@
 package cj.software.genetics.schedule.client.entity.configuration;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
@@ -12,6 +13,12 @@ public class Server implements Serializable {
     @NotNull
     private URL url;
 
+    @NotBlank
+    private String createSubPath;
+
+    @NotBlank
+    private String breedSubPath;
+
     private Server() {
     }
 
@@ -21,6 +28,22 @@ public class Server implements Serializable {
 
     public void setUrl(URL url) {
         this.url = url;
+    }
+
+    public String getCreateSubPath() {
+        return createSubPath;
+    }
+
+    public void setCreateSubPath(String createSubPath) {
+        this.createSubPath = createSubPath;
+    }
+
+    public String getBreedSubPath() {
+        return breedSubPath;
+    }
+
+    public void setBreedSubPath(String breedSubPath) {
+        this.breedSubPath = breedSubPath;
     }
 
     public static Builder builder() {
@@ -42,6 +65,16 @@ public class Server implements Serializable {
 
         public Builder withUrl(URL url) {
             instance.setUrl(url);
+            return this;
+        }
+
+        public Builder withCreateSubPath(String createSubPath) {
+            instance.setCreateSubPath(createSubPath);
+            return this;
+        }
+
+        public Builder withBreedSubPath(String breedSubPath) {
+            instance.setBreedSubPath(breedSubPath);
             return this;
         }
     }

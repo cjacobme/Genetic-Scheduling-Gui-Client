@@ -39,5 +39,7 @@ public class ConfigurationDumper implements InitializingBean {
 
     private void log(Server server) {
         logger.info(STRING_FORMAT, "URL", server.getUrl());
+        logger.info(STRING_FORMAT, "create sub path", server.getCreateSubPath());
+        logger.info(STRING_FORMAT, "breed sub path", server.getBreedSubPath());
     }
 }

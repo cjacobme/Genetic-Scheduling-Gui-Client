@@ -1,3 +1,4 @@
 cj.software.genetics.schedule.client:
   server:
-    url: http://localhost:8080
+    create-sub-path: /schedule/create
+    breed-sub-path: /schedule/breed

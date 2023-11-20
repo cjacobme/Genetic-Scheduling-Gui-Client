@@ -1,5 +1,6 @@
 package cj.software.genetics.schedule.client.entity.configuration;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;
@@ -44,17 +45,29 @@ class ServerTest {
 
         Object instanceAfter = field.get(builder);
         assertThat(instanceAfter).as("instance in builder after build").isNull();
-        assertThat(instance.getUrl()).as("URL").isNull();
+        SoftAssertions softy = new SoftAssertions();
+        softy.assertThat(instance.getUrl()).as("URL").isNull();
+        softy.assertThat(instance.getCreateSubPath()).as("create sub path").isNull();
+        softy.assertThat(instance.getBreedSubPath()).as("breed sub path").isNull();
+        softy.assertAll();
     }
 
     @Test
     void constructFilled() throws URISyntaxException, MalformedURLException {
         URL url = new URI("http://www.gippetnicht.de").toURL();
+        String createSubPath = "_createSubPath";
+        String breedSubPath = "_breedSubPath";
         Server instance = Server.builder()
                 .withUrl(url)
+                .withCreateSubPath(createSubPath)
+                .withBreedSubPath(breedSubPath)
                 .build();
         assertThat(instance).as("built instance").isNotNull();
-        assertThat(instance.getUrl()).as("URL").isEqualTo(url);
+        SoftAssertions softy = new SoftAssertions();
+        softy.assertThat(instance.getUrl()).as("URL").isEqualTo(url);
+        softy.assertThat(instance.getCreateSubPath()).as("create sub path").isEqualTo(createSubPath);
+        softy.assertThat(instance.getBreedSubPath()).as("breed sub path").isEqualTo(breedSubPath);
+        softy.assertAll();
     }
 
     @Test
