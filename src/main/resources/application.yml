@@ -1,0 +1,4 @@
+cj.software.genetics.schedule.client:
+  server:
+    create-sub-path: /schedule/create
+    breed-sub-path: /schedule/breed
