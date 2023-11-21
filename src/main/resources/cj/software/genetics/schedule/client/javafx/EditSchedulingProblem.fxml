@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.BorderPane?>
+<DialogPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="cj.software.genetics.schedule.client.javafx.EditSchedulingProblemController">
+    <content>
+        <BorderPane>
+            <center>
+                <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE"
+                         BorderPane.alignment="CENTER">
+                    <Tab text="Problem Setup">
+
+                    </Tab>
+                    <Tab text="Solution Setup">
+
+                    </Tab>
+                </TabPane>
+            </center>
+        </BorderPane>
+    </content>
+
+    <ButtonType buttonData="CANCEL_CLOSE" text="Cancel"/>
+    <ButtonType buttonData="OK_DONE" text="OK"/>
+</DialogPane>
