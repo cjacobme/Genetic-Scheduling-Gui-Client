@@ -3,8 +3,10 @@
 <?import javafx.scene.control.ButtonType?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.TableColumn?>
 <DialogPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="cj.software.genetics.schedule.client.javafx.EditSchedulingProblemController">
@@ -14,7 +16,20 @@
                 <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE"
                          BorderPane.alignment="CENTER">
                     <Tab text="Problem Setup">
-
+                        <BorderPane>
+                            <center>
+                                <TableView fx:id="tblPriorities">
+                                    <columns>
+                                        <TableColumn fx:id="tcolPriorityValue" prefWidth="75.0"
+                                                     style="-fx-alignment: TOP-RIGHT;" text="Priority"/>
+                                        <TableColumn fx:id="tcolColors" prefWidth="75.0" text="Colors"/>
+                                        <TableColumn fx:id="tcolTasks" prefWidth="250.0" text="Tasks"/>
+                                        <TableColumn fx:id="tcolSlotCount" prefWidth="100.0"
+                                                     style="-fx-alignment: TOP-RIGHT;" text="Number of slots"/>
+                                    </columns>
+                                </TableView>
+                            </center>
+                        </BorderPane>
                     </Tab>
                     <Tab text="Solution Setup">
 
