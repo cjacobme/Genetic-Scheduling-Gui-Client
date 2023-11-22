@@ -1,6 +1,6 @@
 package cj.software.genetics.schedule.client.util;
 
-import cj.software.genetics.schedule.client.entity.TimeWithUnit;
+import cj.software.genetics.schedule.api.entity.TimeWithUnit;
 import cj.software.genetics.schedule.client.entity.ui.ColorPair;
 import cj.software.genetics.schedule.client.entity.ui.PriorityUiModel;
 import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
@@ -12,8 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import org.springframework.stereotype.Service;
-
-import java.time.Duration;
 
 @Service
 public class SchedulingProblemService {
@@ -35,9 +33,9 @@ public class SchedulingProblemService {
     }
 
     private PriorityUiModel createPrio0() {
-        TasksUiModel tasks0 = new TasksUiModel(new SimpleObjectProperty<>(new TimeWithUnit(Duration.ofSeconds(10))), new SimpleIntegerProperty(17));
-        TasksUiModel tasks1 = new TasksUiModel(new SimpleObjectProperty<>(new TimeWithUnit(Duration.ofSeconds(20))), new SimpleIntegerProperty(13));
-        TasksUiModel tasks2 = new TasksUiModel(new SimpleObjectProperty<>(new TimeWithUnit(Duration.ofMinutes(1))), new SimpleIntegerProperty(10));
+        TasksUiModel tasks0 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofSeconds(10)), new SimpleIntegerProperty(17));
+        TasksUiModel tasks1 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofSeconds(20)), new SimpleIntegerProperty(13));
+        TasksUiModel tasks2 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofMinutes(1)), new SimpleIntegerProperty(10));
         ObservableList<TasksUiModel> tasks = FXCollections.observableArrayList(tasks0, tasks1, tasks2);
         PriorityUiModel result = new PriorityUiModel(
                 new SimpleIntegerProperty(0),
@@ -48,8 +46,8 @@ public class SchedulingProblemService {
     }
 
     private PriorityUiModel createPrio1() {
-        TasksUiModel tasks0 = new TasksUiModel(new SimpleObjectProperty<>(new TimeWithUnit(Duration.ofSeconds(10))), new SimpleIntegerProperty(10));
-        TasksUiModel tasks1 = new TasksUiModel(new SimpleObjectProperty<>(new TimeWithUnit(Duration.ofSeconds(30))), new SimpleIntegerProperty(20));
+        TasksUiModel tasks0 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofSeconds(10)), new SimpleIntegerProperty(10));
+        TasksUiModel tasks1 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofSeconds(30)), new SimpleIntegerProperty(20));
         ObservableList<TasksUiModel> tasks = FXCollections.observableArrayList(tasks0, tasks1);
         PriorityUiModel result = new PriorityUiModel(
                 new SimpleIntegerProperty(1),
@@ -60,7 +58,7 @@ public class SchedulingProblemService {
     }
 
     private PriorityUiModel createPrio2() {
-        TasksUiModel tasks0 = new TasksUiModel(new SimpleObjectProperty<>(new TimeWithUnit(Duration.ofSeconds(15))), new SimpleIntegerProperty(12));
+        TasksUiModel tasks0 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofSeconds(15)), new SimpleIntegerProperty(12));
         ObservableList<TasksUiModel> tasks = FXCollections.observableArrayList(tasks0);
         PriorityUiModel result = new PriorityUiModel(
                 new SimpleIntegerProperty(2),
