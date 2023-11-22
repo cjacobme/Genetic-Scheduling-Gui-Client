@@ -3,27 +3,25 @@ package cj.software.genetics.schedule.client.entity.ui;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 
-import java.time.Duration;
-
 public class TasksUiModel {
-    private final ObjectProperty<Duration> duration;
+    private final ObjectProperty<TimeWithUnit> duration;
 
     private final IntegerProperty count;
 
-    public TasksUiModel(ObjectProperty<Duration> duration, IntegerProperty count) {
+    public TasksUiModel(ObjectProperty<TimeWithUnit> duration, IntegerProperty count) {
         this.duration = duration;
         this.count = count;
     }
 
-    public Duration getDuration() {
+    public TimeWithUnit getDuration() {
         return duration.get();
     }
 
-    public ObjectProperty<Duration> durationProperty() {
+    public ObjectProperty<TimeWithUnit> durationProperty() {
         return duration;
     }
 
-    public void setDuration(Duration duration) {
+    public void setDuration(TimeWithUnit duration) {
         this.duration.set(duration);
     }
 

@@ -99,6 +99,6 @@ class SchedulingProblemServiceTest {
 
     private void assertTask(SoftAssertions softy, int index, TasksUiModel model, int expCount, Duration expDuration) {
         softy.assertThat(model.getCount()).as("count #%d", index).isEqualTo(expCount);
-        softy.assertThat(model.getDuration()).as("duration #%d", index).isEqualTo(expDuration);
+        softy.assertThat(model.getDuration().toDuration()).as("duration #%d", index).isEqualTo(expDuration);
     }
 }
