@@ -31,6 +31,8 @@ public class TasksSubTableCell extends TableCell<PriorityUiModel, ObservableList
 
             tableView.setItems(entries);
             setGraphic(tableView);
+        } else {
+            setGraphic(null);
         }
         setText(null);
     }

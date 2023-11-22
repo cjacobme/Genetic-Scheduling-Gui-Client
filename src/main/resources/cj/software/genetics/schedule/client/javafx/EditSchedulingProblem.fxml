@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ButtonType?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.control.TableColumn?>
 <DialogPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="cj.software.genetics.schedule.client.javafx.EditSchedulingProblemController">
@@ -16,9 +19,10 @@
                 <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE"
                          BorderPane.alignment="CENTER">
                     <Tab text="Problem Setup">
-                        <BorderPane>
+                        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                             <center>
-                                <TableView fx:id="tblPriorities">
+                                <TableView fx:id="tblPriorities" maxHeight="1.7976931348623157E308"
+                                           maxWidth="1.7976931348623157E308">
                                     <columns>
                                         <TableColumn fx:id="tcolPriorityValue" prefWidth="75.0"
                                                      style="-fx-alignment: TOP-RIGHT;" text="Priority"/>
@@ -29,6 +33,21 @@
                                     </columns>
                                 </TableView>
                             </center>
+                            <bottom>
+                                <ButtonBar>
+                                    <buttons>
+                                        <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#addPriority"
+                                                text="Add"/>
+                                        <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#editPriority"
+                                                text="Edit..."/>
+                                        <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#deletePriority"
+                                                text="Delete..."/>
+                                    </buttons>
+                                    <padding>
+                                        <Insets top="20.0"/>
+                                    </padding>
+                                </ButtonBar>
+                            </bottom>
                         </BorderPane>
                     </Tab>
                     <Tab text="Solution Setup">
