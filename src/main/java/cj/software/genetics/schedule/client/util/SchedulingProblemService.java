@@ -1,10 +1,10 @@
 package cj.software.genetics.schedule.client.util;
 
+import cj.software.genetics.schedule.client.entity.TimeWithUnit;
 import cj.software.genetics.schedule.client.entity.ui.ColorPair;
 import cj.software.genetics.schedule.client.entity.ui.PriorityUiModel;
 import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
 import cj.software.genetics.schedule.client.entity.ui.TasksUiModel;
-import cj.software.genetics.schedule.client.entity.ui.TimeWithUnit;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;

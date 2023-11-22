@@ -1,5 +1,6 @@
 package cj.software.genetics.schedule.client.entity.ui;
 
+import cj.software.genetics.schedule.client.entity.TimeWithUnit;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 
