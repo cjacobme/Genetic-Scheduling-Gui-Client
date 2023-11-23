@@ -15,13 +15,16 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
+import javafx.stage.Window;
 import javafx.util.converter.NumberStringConverter;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.time.Duration;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
@@ -33,6 +36,9 @@ public class EditPriorityDetailsController implements Initializable {
 
     @Autowired
     private NumberStringConverter numberStringConverter;
+
+    @Autowired
+    private ConfigurableApplicationContext context;
 
     @FXML
     private TextField tfPriority;
@@ -98,17 +104,34 @@ public class EditPriorityDetailsController implements Initializable {
 
     @FXML
     public void addTask() {
-
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     @FXML
     public void editTask() {
+        Window owner = Window.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
+        ObservableList<TasksUiModel> items = tblTasks.getItems();
+        int selectedIndex = determineSelectedIndex();
+        TasksUiModel selected = items.get(selectedIndex);
+        TasksUiModel edit = new TasksUiModel(selected);
+        EditTaskDetailsDialog dialog = new EditTaskDetailsDialog(context, owner, edit);
+        Optional<TasksUiModel> returned = dialog.showAndWait();
+        if (returned.isPresent()) {
+            TasksUiModel edited = returned.get();
+            items.set(selectedIndex, edited);
+        }
 
     }
 
     @FXML
     public void deleteTask() {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 
+    private int determineSelectedIndex() {
+        TableView.TableViewSelectionModel<TasksUiModel> selectionModel = tblTasks.getSelectionModel();
+        int result = selectionModel.getSelectedIndex();
+        return result;
     }
 
     public PriorityUiModel getPriorityUiModel() {
