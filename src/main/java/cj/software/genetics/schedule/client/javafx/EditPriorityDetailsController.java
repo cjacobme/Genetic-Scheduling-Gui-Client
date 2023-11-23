@@ -5,23 +5,28 @@ import cj.software.genetics.schedule.client.entity.ui.PriorityUiModel;
 import cj.software.genetics.schedule.client.entity.ui.TasksUiModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.util.converter.NumberStringConverter;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.net.URL;
 import java.time.Duration;
+import java.util.ResourceBundle;
 
 @Component
 @FxmlView("EditPriorityDetails.fxml")
-public class EditPriorityDetailsController {
+public class EditPriorityDetailsController implements Initializable {
 
     @Autowired
     private ColorService colorService;
@@ -57,7 +62,7 @@ public class EditPriorityDetailsController {
     private Button btnDeleteTask;
 
     @FXML
-    private Button btnBlaBla;
+    private Button btnEditTask;
 
     private PriorityUiModel priorityUiModel;
 
@@ -73,12 +78,22 @@ public class EditPriorityDetailsController {
     public void setData(PriorityUiModel priorityUiModel) {
         this.priorityUiModel = priorityUiModel;
         Bindings.bindBidirectional(tfPriority.textProperty(), this.priorityUiModel.valueProperty(), numberStringConverter);
-        Bindings.bindBidirectional(tfNumSlots.textProperty(), this.priorityUiModel.valueProperty(), numberStringConverter);
+        Bindings.bindBidirectional(tfNumSlots.textProperty(), this.priorityUiModel.slotCountProperty(), numberStringConverter);
         ColorPair colorPair = priorityUiModel.getColorPair();
         cpBackground.valueProperty().bindBidirectional(colorPair.backgroundProperty());
         cpForeground.valueProperty().bindBidirectional(colorPair.foregroundProperty());
         String style = colorService.constructStyle(colorPair);
         btnSample.setStyle(style);
+        tblTasks.setItems(priorityUiModel.getTasks());
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        tcolDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        tcolCount.setCellValueFactory(new PropertyValueFactory<>("count"));
+        ObservableList<TasksUiModel> selectionModel = tblTasks.getSelectionModel().getSelectedItems();
+        btnDeleteTask.disableProperty().bind(Bindings.isEmpty(selectionModel));
+        btnEditTask.disableProperty().bind(Bindings.isEmpty(selectionModel));
     }
 
     @FXML

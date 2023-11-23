@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
@@ -27,17 +26,17 @@
                 <Tab closable="false" text="General">
                     <GridPane hgap="5.0" vgap="5.0">
                         <Label text="Priority:"/>
-                        <TextField alignment="CENTER_RIGHT" editable="false" fx:id="tfPriority"
-                                   GridPane.columnIndex="1" GridPane.columnSpan="2147483647"/>
+                        <TextField fx:id="tfPriority" alignment="CENTER_RIGHT" editable="false" GridPane.columnIndex="1"
+                                   GridPane.columnSpan="2147483647"/>
                         <Label text="Number of Slots:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                        <TextField fx:id="tfNumSlots" alignment="CENTER_RIGHT"
-                                   GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="2147483647"/>
+                        <TextField fx:id="tfNumSlots" alignment="CENTER_RIGHT" GridPane.columnIndex="1"
+                                   GridPane.columnSpan="2147483647" GridPane.rowIndex="1"/>
                         <Label text="Colors:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
                         <Button fx:id="btnSample" text="Sample" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                        <ColorPicker promptText="background" GridPane.columnIndex="2" GridPane.rowIndex="2"
-                                     fx:id="cpBackground" onAction="#colorsChanged"/>
-                        <ColorPicker promptText="foreground" GridPane.columnIndex="3" GridPane.rowIndex="2"
-                                     fx:id="cpForeground" onAction="#colorsChanged"/>
+                        <ColorPicker fx:id="cpBackground" onAction="#colorsChanged" promptText="background"
+                                     GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                        <ColorPicker fx:id="cpForeground" onAction="#colorsChanged" promptText="foreground"
+                                     GridPane.columnIndex="3" GridPane.rowIndex="2"/>
                         <columnConstraints>
                             <ColumnConstraints/>
                             <ColumnConstraints/>
@@ -45,6 +44,7 @@
                             <ColumnConstraints/>
                         </columnConstraints>
                         <rowConstraints>
+                            <RowConstraints/>
                             <RowConstraints/>
                             <RowConstraints/>
                         </rowConstraints>
@@ -55,7 +55,7 @@
                 <Tab closable="false" text="Tasks">
                     <BorderPane>
                         <center>
-                            <TableView fx:id="tblTasks" prefWidth="450.0" editable="true">
+                            <TableView fx:id="tblTasks" editable="true" prefWidth="450.0">
                                 <columns>
                                     <TableColumn fx:id="tcolDuration" text="duration / s"/>
                                     <TableColumn fx:id="tcolCount" text="count"/>
@@ -65,9 +65,9 @@
                         <bottom>
                             <ButtonBar>
                                 <buttons>
-                                    <Button text="Add..." onAction="#addTask"/>
-                                    <Button text="Edit..."/>
-                                    <Button text="Delete..." fx:id="btnDeleteTask" onAction="#deleteTask"/>
+                                    <Button onAction="#addTask" text="Add..."/>
+                                    <Button fx:id="btnEditTask" onAction="#editTask" text="Edit..."/>
+                                    <Button fx:id="btnDeleteTask" onAction="#deleteTask" text="Delete..."/>
                                 </buttons>
                             </ButtonBar>
                         </bottom>
