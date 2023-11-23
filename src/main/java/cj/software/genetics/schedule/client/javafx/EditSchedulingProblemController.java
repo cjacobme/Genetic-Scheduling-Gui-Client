@@ -15,7 +15,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Window;
 import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -25,6 +28,9 @@ import java.util.ResourceBundle;
 @Component
 @FxmlView("EditSchedulingProblem.fxml")
 public class EditSchedulingProblemController implements Initializable {
+
+    @Autowired
+    private ConfigurableApplicationContext applicationContext;
 
     @FXML
     private TableView<PriorityUiModel> tblPriorities;
@@ -79,12 +85,28 @@ public class EditSchedulingProblemController implements Initializable {
 
     @FXML
     public void editPriority() {
-
+        Window owner = Window.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
+        ObservableList<PriorityUiModel> items = tblPriorities.getItems();
+        int selectedIndex = determineSelectedIndex();
+        PriorityUiModel selected = items.get(selectedIndex);
+        PriorityUiModel edit = new PriorityUiModel(selected);
+        EditPriorityDetailsDialog dialog = new EditPriorityDetailsDialog(applicationContext, owner, edit);
+        Optional<PriorityUiModel> returned = dialog.showAndWait();
+        if (returned.isPresent()) {
+            PriorityUiModel edited = returned.get();
+            items.set(selectedIndex, edited);
+        }
     }
 
     private PriorityUiModel determineSelected() {
         TableView.TableViewSelectionModel<PriorityUiModel> selectionModel = tblPriorities.getSelectionModel();
         PriorityUiModel result = selectionModel.getSelectedItem();
+        return result;
+    }
+
+    private int determineSelectedIndex() {
+        TableView.TableViewSelectionModel<PriorityUiModel> selectionModel = tblPriorities.getSelectionModel();
+        int result = selectionModel.getSelectedIndex();
         return result;
     }
 

@@ -2,6 +2,9 @@ package cj.software.genetics.schedule.client.entity.ui;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class PriorityUiModel {
@@ -19,6 +22,25 @@ public class PriorityUiModel {
         this.slotCount = slotCount;
         this.colorPair = colorPair;
         this.tasks = tasks;
+    }
+
+    /**
+     * copy constructor
+     */
+    public PriorityUiModel(PriorityUiModel source) {
+        this.value = new SimpleIntegerProperty(source.getValue());
+        this.slotCount = new SimpleIntegerProperty(source.getSlotCount());
+        this.colorPair = new SimpleObjectProperty<>(new ColorPair(source.getColorPair()));
+        this.tasks = copyTasks(source.getTasks());
+    }
+
+    private ObservableList<TasksUiModel> copyTasks(ObservableList<TasksUiModel> source) {
+        ObservableList<TasksUiModel> result = FXCollections.observableArrayList();
+        for (TasksUiModel sourceEntry : source) {
+            TasksUiModel copy = new TasksUiModel(sourceEntry);
+            result.add(copy);
+        }
+        return result;
     }
 
     public int getValue() {

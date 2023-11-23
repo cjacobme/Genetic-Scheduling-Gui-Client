@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ButtonType?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
@@ -64,8 +65,9 @@
                         <bottom>
                             <ButtonBar>
                                 <buttons>
-                                    <Button text="Add" onAction="#addTasksLine"/>
-                                    <Button text="Delete..." onAction="#deleteTaskLine" fx:id="btnDelTaskLine"/>
+                                    <Button text="Add..." onAction="#addTask"/>
+                                    <Button text="Edit..."/>
+                                    <Button text="Delete..." fx:id="btnDeleteTask" onAction="#deleteTask"/>
                                 </buttons>
                             </ButtonBar>
                         </bottom>
@@ -77,4 +79,6 @@
             </padding>
         </VBox>
     </content>
+    <ButtonType buttonData="OK_DONE" text="OK"/>
+    <ButtonType buttonData="CANCEL_CLOSE" text="Cancel"/>
 </DialogPane>

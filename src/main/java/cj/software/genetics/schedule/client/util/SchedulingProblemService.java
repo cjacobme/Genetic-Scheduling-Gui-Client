@@ -40,7 +40,7 @@ public class SchedulingProblemService {
         PriorityUiModel result = new PriorityUiModel(
                 new SimpleIntegerProperty(0),
                 new SimpleIntegerProperty(500),
-                new SimpleObjectProperty<>(ColorPair.builder().withBackground(Color.RED).withForeground(Color.BLACK).build()),
+                new SimpleObjectProperty<>(new ColorPair(new SimpleObjectProperty<>(Color.BLACK), new SimpleObjectProperty<>(Color.RED))),
                 tasks);
         return result;
     }
@@ -52,7 +52,7 @@ public class SchedulingProblemService {
         PriorityUiModel result = new PriorityUiModel(
                 new SimpleIntegerProperty(1),
                 new SimpleIntegerProperty(100),
-                new SimpleObjectProperty<>(ColorPair.builder().withBackground(Color.YELLOW).withForeground(Color.BLACK).build()),
+                new SimpleObjectProperty<>(new ColorPair(new SimpleObjectProperty<>(Color.BLACK), new SimpleObjectProperty<>(Color.YELLOW))),
                 tasks);
         return result;
     }
@@ -63,7 +63,7 @@ public class SchedulingProblemService {
         PriorityUiModel result = new PriorityUiModel(
                 new SimpleIntegerProperty(2),
                 new SimpleIntegerProperty(150),
-                new SimpleObjectProperty<>(ColorPair.builder().withBackground(Color.GREEN).withForeground(Color.YELLOW).build()),
+                new SimpleObjectProperty<>(new ColorPair(new SimpleObjectProperty<>(Color.YELLOW), new SimpleObjectProperty<>(Color.GREEN))),
                 tasks);
         return result;
     }
