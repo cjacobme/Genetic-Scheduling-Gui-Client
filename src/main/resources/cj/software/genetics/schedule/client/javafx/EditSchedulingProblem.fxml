@@ -5,11 +5,17 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ButtonType?>
 <?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 <DialogPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="cj.software.genetics.schedule.client.javafx.EditSchedulingProblemController">
@@ -51,10 +57,40 @@
                         </BorderPane>
                     </Tab>
                     <Tab text="Solution Setup">
+                        <GridPane hgap="5.0" vgap="5.0">
+                            <padding>
+                                <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
+                            </padding>
+                            <columnConstraints>
+                                <ColumnConstraints/>
+                                <ColumnConstraints/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints/>
+                            </rowConstraints>
+                            <Label text="Number of solutions:"
+                                   GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                            <TextField fx:id="tfSolutionsCount" alignment="CENTER_RIGHT" GridPane.columnIndex="1"
+                                       GridPane.rowIndex="0">
+                                <font>
+                                    <Font name="Courier New" size="12.0"/>
+                                </font>
+                            </TextField>
+                            <Label text="Number of Workers / Solution: "
+                                   GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                            <TextField fx:id="tfWorkersCount" alignment="CENTER_RIGHT"
+                                       GridPane.rowIndex="1" GridPane.columnIndex="1">
+                                <font>
+                                    <Font name="Courier New" size="12.0"/>
+                                </font>
 
+                            </TextField>
+                        </GridPane>
                     </Tab>
                 </TabPane>
             </center>
+            <left>
+            </left>
         </BorderPane>
     </content>
 
