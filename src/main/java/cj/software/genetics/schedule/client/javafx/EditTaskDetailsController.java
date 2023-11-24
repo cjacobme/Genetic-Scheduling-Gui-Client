@@ -35,6 +35,8 @@ public class EditTaskDetailsController implements Initializable {
     @FXML
     private ComboBox<TimeUnit> cbDurationUnit;
 
+    private IntegerProperty countProperty;
+
     private IntegerProperty durationValue;
 
     private SimpleObjectProperty<TimeUnit> durationUnit;
@@ -45,16 +47,23 @@ public class EditTaskDetailsController implements Initializable {
     }
 
     public void setData(TasksUiModel model) {
-        Bindings.bindBidirectional(tfCount.textProperty(), model.countProperty(), numberStringConverter);
-        TimeWithUnit duration = model.getDuration();
-        this.durationValue = new SimpleIntegerProperty(duration.getTime());
-        this.durationUnit = new SimpleObjectProperty<>(duration.getUnit());
+        if (model != null) {
+            this.countProperty = model.countProperty();
+            TimeWithUnit duration = model.getDuration();
+            this.durationValue = new SimpleIntegerProperty(duration.getTime());
+            this.durationUnit = new SimpleObjectProperty<>(duration.getUnit());
+        } else {
+            this.countProperty = new SimpleIntegerProperty();
+            this.durationValue = new SimpleIntegerProperty();
+            this.durationUnit = new SimpleObjectProperty<>();
+        }
         Bindings.bindBidirectional(tfDurationValue.textProperty(), this.durationValue, numberStringConverter);
-        Bindings.bindBidirectional(cbDurationUnit.valueProperty(), durationUnit);
+        Bindings.bindBidirectional(cbDurationUnit.valueProperty(), this.durationUnit);
+        Bindings.bindBidirectional(tfCount.textProperty(), this.countProperty, numberStringConverter);
     }
 
     public TasksUiModel getData() {
-        int count = Integer.parseInt(tfCount.getText());
+        int count = countProperty.get();
         int dv = durationValue.get();
         TimeUnit du = durationUnit.get();
         TimeWithUnit duration = TimeWithUnit.builder().withTime(dv).withUnit(du).build();

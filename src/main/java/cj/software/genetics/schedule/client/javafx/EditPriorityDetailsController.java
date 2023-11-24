@@ -104,7 +104,14 @@ public class EditPriorityDetailsController implements Initializable {
 
     @FXML
     public void addTask() {
-        throw new UnsupportedOperationException("not yet implemented");
+        Window owner = Window.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
+        ObservableList<TasksUiModel> items = tblTasks.getItems();
+        EditTaskDetailsDialog dialog = new EditTaskDetailsDialog(context, owner, null);
+        Optional<TasksUiModel> returned = dialog.showAndWait();
+        if (returned.isPresent()) {
+            TasksUiModel edited = returned.get();
+            items.add(edited);
+        }
     }
 
     @FXML
@@ -120,7 +127,6 @@ public class EditPriorityDetailsController implements Initializable {
             TasksUiModel edited = returned.get();
             items.set(selectedIndex, edited);
         }
-
     }
 
     @FXML
