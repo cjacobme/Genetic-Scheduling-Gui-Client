@@ -8,7 +8,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -131,7 +133,21 @@ public class EditPriorityDetailsController implements Initializable {
 
     @FXML
     public void deleteTask() {
-        throw new UnsupportedOperationException("not yet implemented");
+        ObservableList<TasksUiModel> items = tblTasks.getItems();
+        int selectedIndex = determineSelectedIndex();
+        TasksUiModel selected = items.get(selectedIndex);
+        String question = String.format("Do you really want to delete this tasks setup?%n" +
+                "\tindex: %d%n" +
+                "\tnumber of tasks: %d%n" +
+                "\tduration: %s", selectedIndex, selected.getCount(), selected.getDuration());
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, question, ButtonType.YES, ButtonType.NO);
+        Optional<?> optional = alert.showAndWait();
+        if (optional.isPresent()) {
+            ButtonType response = alert.getResult();
+            if (ButtonType.YES.equals(response)) {
+                items.remove(selectedIndex);
+            }
+        }
     }
 
     private int determineSelectedIndex() {
