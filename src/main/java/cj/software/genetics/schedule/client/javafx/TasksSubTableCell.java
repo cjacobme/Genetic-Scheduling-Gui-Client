@@ -1,5 +1,6 @@
 package cj.software.genetics.schedule.client.javafx;
 
+import cj.software.genetics.schedule.api.entity.TimeWithUnit;
 import cj.software.genetics.schedule.client.entity.ui.PriorityUiModel;
 import cj.software.genetics.schedule.client.entity.ui.TasksUiModel;
 import javafx.collections.ObservableList;
@@ -7,8 +8,6 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-import java.time.Duration;
 
 public class TasksSubTableCell extends TableCell<PriorityUiModel, ObservableList<TasksUiModel>> {
     @Override
@@ -21,7 +20,7 @@ public class TasksSubTableCell extends TableCell<PriorityUiModel, ObservableList
             ObservableList<TasksUiModel> entries = getTableView().getItems().get(getIndex()).getTasks();
             ObservableList<TableColumn<TasksUiModel, ?>> columns = tableView.getColumns();
 
-            TableColumn<TasksUiModel, Duration> tcolDuration = new TableColumn<>("Duration");
+            TableColumn<TasksUiModel, TimeWithUnit> tcolDuration = new TableColumn<>("Duration");
             tcolDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
             columns.add(tcolDuration);
 
