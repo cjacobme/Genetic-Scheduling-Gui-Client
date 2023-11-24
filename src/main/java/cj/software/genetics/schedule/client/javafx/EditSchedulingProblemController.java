@@ -101,7 +101,7 @@ public class EditSchedulingProblemController implements Initializable {
         Window owner = Window.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
         ObservableList<PriorityUiModel> items = tblPriorities.getItems();
         int size = items.size();
-        IntegerProperty valueProperty = new SimpleIntegerProperty(size);
+        IntegerProperty valueProperty = new SimpleIntegerProperty(size + 1);
         IntegerProperty slotCountProperty = new SimpleIntegerProperty();
         ColorPair colorPair = new ColorPair(new SimpleObjectProperty<>(Color.BLACK), new SimpleObjectProperty<>(Color.WHITE));
         ObjectProperty<ColorPair> colorPairProperty = new SimpleObjectProperty<>(colorPair);
@@ -158,7 +158,7 @@ public class EditSchedulingProblemController implements Initializable {
                 ObservableList<PriorityUiModel> items = tblPriorities.getItems();
                 selected.getTasks().clear();
                 items.remove(selected);
-                int priority = 0;
+                int priority = 1;
                 for (PriorityUiModel item : items) {
                     item.setValue(priority);
                     priority++;

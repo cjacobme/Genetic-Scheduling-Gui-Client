@@ -25,43 +25,43 @@ public class SchedulingProblemService {
     }
 
     private ObservableList<PriorityUiModel> createPriorities() {
-        PriorityUiModel prio0 = createPrio0();
-        PriorityUiModel prio1 = createPrio1();
-        PriorityUiModel prio2 = createPrio2();
+        PriorityUiModel prio0 = createPrio1();
+        PriorityUiModel prio1 = createPrio2();
+        PriorityUiModel prio2 = createPrio3();
         ObservableList<PriorityUiModel> result = FXCollections.observableArrayList(prio0, prio1, prio2);
         return result;
     }
 
-    private PriorityUiModel createPrio0() {
+    private PriorityUiModel createPrio1() {
         TasksUiModel tasks0 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofSeconds(10)), new SimpleIntegerProperty(17));
         TasksUiModel tasks1 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofSeconds(20)), new SimpleIntegerProperty(13));
         TasksUiModel tasks2 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofMinutes(1)), new SimpleIntegerProperty(10));
         ObservableList<TasksUiModel> tasks = FXCollections.observableArrayList(tasks0, tasks1, tasks2);
         PriorityUiModel result = new PriorityUiModel(
-                new SimpleIntegerProperty(0),
+                new SimpleIntegerProperty(1),
                 new SimpleIntegerProperty(500),
                 new SimpleObjectProperty<>(new ColorPair(new SimpleObjectProperty<>(Color.BLACK), new SimpleObjectProperty<>(Color.RED))),
                 tasks);
         return result;
     }
 
-    private PriorityUiModel createPrio1() {
+    private PriorityUiModel createPrio2() {
         TasksUiModel tasks0 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofSeconds(10)), new SimpleIntegerProperty(10));
         TasksUiModel tasks1 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofSeconds(30)), new SimpleIntegerProperty(20));
         ObservableList<TasksUiModel> tasks = FXCollections.observableArrayList(tasks0, tasks1);
         PriorityUiModel result = new PriorityUiModel(
-                new SimpleIntegerProperty(1),
+                new SimpleIntegerProperty(2),
                 new SimpleIntegerProperty(100),
                 new SimpleObjectProperty<>(new ColorPair(new SimpleObjectProperty<>(Color.BLACK), new SimpleObjectProperty<>(Color.YELLOW))),
                 tasks);
         return result;
     }
 
-    private PriorityUiModel createPrio2() {
+    private PriorityUiModel createPrio3() {
         TasksUiModel tasks0 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofSeconds(15)), new SimpleIntegerProperty(12));
         ObservableList<TasksUiModel> tasks = FXCollections.observableArrayList(tasks0);
         PriorityUiModel result = new PriorityUiModel(
-                new SimpleIntegerProperty(2),
+                new SimpleIntegerProperty(3),
                 new SimpleIntegerProperty(150),
                 new SimpleObjectProperty<>(new ColorPair(new SimpleObjectProperty<>(Color.YELLOW), new SimpleObjectProperty<>(Color.GREEN))),
                 tasks);

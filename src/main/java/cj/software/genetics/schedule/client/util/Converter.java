@@ -67,6 +67,7 @@ public class Converter {
         counter.setStartTaskIdentifier(startTaskIdentifier + tasks.size());
         ProblemPriority result = ProblemPriority.builder()
                 .withValue(prioVal)
+                .withSlotCount(priorityUiModel.getSlotCount())
                 .withTasks(tasks)
                 .build();
         return result;

@@ -6,6 +6,7 @@ import javafx.util.converter.NumberStringConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.net.URL;
@@ -25,8 +26,14 @@ public class BeanProducer {
     public WebClient webClient() {
         Server server = configurationHolder.getServer();
         URL url = server.getUrl();
+        ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
+                .codecs(codecs -> codecs
+                        .defaultCodecs()
+                        .maxInMemorySize(Integer.MAX_VALUE))
+                .build();
         WebClient result = WebClient.builder()
                 .baseUrl(url.toString())
+                .exchangeStrategies(exchangeStrategies)
                 .build();
         return result;
     }

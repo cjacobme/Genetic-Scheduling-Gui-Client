@@ -125,6 +125,7 @@ class ConverterTest {
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(problemPriority.getValue()).isZero();
         softy.assertThat(problemPriority.getTasks()).hasSize(40);
+        softy.assertThat(problemPriority.getSlotCount()).isEqualTo(500);
         softy.assertAll();
         softy = new SoftAssertions();
         TimeWithUnit seconds10 = TimeWithUnit.ofSeconds(10);
@@ -160,6 +161,7 @@ class ConverterTest {
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(problemPriority.getValue()).isEqualTo(1);
         softy.assertThat(problemPriority.getTasks()).hasSize(30);
+        softy.assertThat(problemPriority.getSlotCount()).isEqualTo(100);
         softy.assertAll();
         TimeWithUnit seconds10 = TimeWithUnit.ofSeconds(10);
         TimeWithUnit seconds30 = TimeWithUnit.ofSeconds(30);
