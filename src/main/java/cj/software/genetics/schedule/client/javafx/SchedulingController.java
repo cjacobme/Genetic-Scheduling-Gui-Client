@@ -1,7 +1,10 @@
 package cj.software.genetics.schedule.client.javafx;
 
+import cj.software.genetics.schedule.api.entity.SchedulingCreatePostInput;
 import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
+import cj.software.genetics.schedule.client.util.Converter;
 import cj.software.genetics.schedule.client.util.SchedulingProblemService;
+import cj.software.genetics.schedule.client.util.ServerApi;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.stage.Window;
@@ -24,6 +27,12 @@ public class SchedulingController {
     @Autowired
     private ConfigurableApplicationContext applicationContext;
 
+    @Autowired
+    private Converter converter;
+
+    @Autowired
+    private ServerApi serverApi;
+
     private final Logger logger = LogManager.getFormatterLogger();
 
     @FXML
@@ -40,10 +49,8 @@ public class SchedulingController {
         Optional<SchedulingProblemUiModel> optionalModel = dialog.showAndWait();
         if (optionalModel.isPresent()) {
             SchedulingProblemUiModel edited = optionalModel.get();
-            logger.warn("not yet implemented: show edited model for model with %d solutions, %d workers, %d priorities",
-                    edited.getSolutionCount(),
-                    edited.getWorkerCount(),
-                    edited.getPriorities().size());
+            SchedulingCreatePostInput postInput = converter.toSchedulingProblemPostInput(edited);
+            serverApi.create(postInput);
         } else {
             logger.info("dialog was cancelled");
         }

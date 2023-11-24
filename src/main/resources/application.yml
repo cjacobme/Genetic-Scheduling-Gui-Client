@@ -1,3 +1,4 @@
+spring.main.web-application-type: none
 cj.software.genetics.schedule.client:
   server:
     create-sub-path: /schedule/create
