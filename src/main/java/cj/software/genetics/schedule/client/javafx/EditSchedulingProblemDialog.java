@@ -26,7 +26,8 @@ public class EditSchedulingProblemDialog extends Dialog<SchedulingProblemUiModel
         Optional<DialogPane> optionalDialogPane = controllerAndView.getView();
         if (optionalDialogPane.isPresent()) {
             final EditSchedulingProblemController controller = controllerAndView.getController();
-            controller.setModel(model);
+            SchedulingProblemUiModel edit = new SchedulingProblemUiModel(model);
+            controller.setModel(edit);
             super.initOwner(owner);
             super.initModality(Modality.APPLICATION_MODAL);
             DialogPane dialogPane = optionalDialogPane.get();

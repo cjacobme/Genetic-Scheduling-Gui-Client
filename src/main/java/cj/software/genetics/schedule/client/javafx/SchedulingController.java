@@ -4,7 +4,6 @@ import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
 import cj.software.genetics.schedule.client.util.SchedulingProblemService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.stage.Window;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.apache.logging.log4j.LogManager;
@@ -13,13 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.net.URL;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 @Component
 @FxmlView("Scheduling.fxml")
-public class SchedulingController implements Initializable {
+public class SchedulingController {
 
     @Autowired
     private SchedulingProblemService schedulingProblemService;
@@ -28,11 +25,6 @@ public class SchedulingController implements Initializable {
     private ConfigurableApplicationContext applicationContext;
 
     private final Logger logger = LogManager.getFormatterLogger();
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
 
     @FXML
     public void exit() {
@@ -47,7 +39,11 @@ public class SchedulingController implements Initializable {
         EditSchedulingProblemDialog dialog = new EditSchedulingProblemDialog(applicationContext, owner, model);
         Optional<SchedulingProblemUiModel> optionalModel = dialog.showAndWait();
         if (optionalModel.isPresent()) {
-            logger.warn("not yet implemented: show edited model");
+            SchedulingProblemUiModel edited = optionalModel.get();
+            logger.warn("not yet implemented: show edited model for model with %d solutions, %d workers, %d priorities",
+                    edited.getSolutionCount(),
+                    edited.getWorkerCount(),
+                    edited.getPriorities().size());
         } else {
             logger.info("dialog was cancelled");
         }
