@@ -18,9 +18,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Window;
+import javafx.util.converter.NumberStringConverter;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -36,6 +38,9 @@ public class EditSchedulingProblemController implements Initializable {
 
     @Autowired
     private ConfigurableApplicationContext applicationContext;
+
+    @Autowired
+    private NumberStringConverter numberStringConverter;
 
     @FXML
     private TableView<PriorityUiModel> tblPriorities;
@@ -61,11 +66,19 @@ public class EditSchedulingProblemController implements Initializable {
     @FXML
     private Button btnDelete;
 
+    @FXML
+    private TextField tfSolutionsCount;
+
+    @FXML
+    private TextField tfWorkersCount;
+
     private SchedulingProblemUiModel model;
 
     public void setModel(SchedulingProblemUiModel model) {
         this.model = model;
         tblPriorities.setItems(model.getPriorities());
+        Bindings.bindBidirectional(tfSolutionsCount.textProperty(), model.solutionCountProperty(), numberStringConverter);
+        Bindings.bindBidirectional(tfWorkersCount.textProperty(), model.workerCountProperty(), numberStringConverter);
     }
 
     public SchedulingProblemUiModel getModel() {

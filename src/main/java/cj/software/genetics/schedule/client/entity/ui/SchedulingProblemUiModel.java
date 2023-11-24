@@ -1,6 +1,8 @@
 package cj.software.genetics.schedule.client.entity.ui;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class SchedulingProblemUiModel {
@@ -15,6 +17,24 @@ public class SchedulingProblemUiModel {
         this.priorities = priorities;
         this.solutionCount = solutionCount;
         this.workerCount = workerCount;
+    }
+
+    /**
+     * copy constructor
+     */
+    public SchedulingProblemUiModel(SchedulingProblemUiModel source) {
+        this.solutionCount = new SimpleIntegerProperty(source.getSolutionCount());
+        this.workerCount = new SimpleIntegerProperty(source.getWorkerCount());
+        this.priorities = copyPriorities(source.getPriorities());
+    }
+
+    private ObservableList<PriorityUiModel> copyPriorities(ObservableList<PriorityUiModel> source) {
+        ObservableList<PriorityUiModel> result = FXCollections.observableArrayList();
+        for (PriorityUiModel priorityUiModel : source) {
+            PriorityUiModel copy = new PriorityUiModel(priorityUiModel);
+            result.add(copy);
+        }
+        return result;
     }
 
     public ObservableList<PriorityUiModel> getPriorities() {
