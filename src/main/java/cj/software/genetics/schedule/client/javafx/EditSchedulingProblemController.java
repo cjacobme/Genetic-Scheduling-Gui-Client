@@ -6,6 +6,10 @@ import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
 import cj.software.genetics.schedule.client.entity.ui.TasksUiModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +19,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 import javafx.stage.Window;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +85,25 @@ public class EditSchedulingProblemController implements Initializable {
 
     @FXML
     public void addPriority() {
-
+        Window owner = Window.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
+        ObservableList<PriorityUiModel> items = tblPriorities.getItems();
+        int size = items.size();
+        IntegerProperty valueProperty = new SimpleIntegerProperty(size);
+        IntegerProperty slotCountProperty = new SimpleIntegerProperty();
+        ColorPair colorPair = new ColorPair(new SimpleObjectProperty<>(Color.BLACK), new SimpleObjectProperty<>(Color.WHITE));
+        ObjectProperty<ColorPair> colorPairProperty = new SimpleObjectProperty<>(colorPair);
+        ObservableList<TasksUiModel> tasksList = FXCollections.observableArrayList();
+        PriorityUiModel priorityUiModel = new PriorityUiModel(
+                valueProperty,
+                slotCountProperty,
+                colorPairProperty,
+                tasksList);
+        EditPriorityDetailsDialog dialog = new EditPriorityDetailsDialog(applicationContext, owner, priorityUiModel);
+        Optional<PriorityUiModel> returned = dialog.showAndWait();
+        if (returned.isPresent()) {
+            PriorityUiModel edited = returned.get();
+            items.add(edited);
+        }
     }
 
     @FXML

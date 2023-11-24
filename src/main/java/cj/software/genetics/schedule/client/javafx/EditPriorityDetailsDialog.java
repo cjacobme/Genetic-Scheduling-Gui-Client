@@ -26,7 +26,8 @@ public class EditPriorityDetailsDialog extends Dialog<PriorityUiModel> {
         Optional<DialogPane> optional = controllerAndView.getView();
         if (optional.isPresent()) {
             final EditPriorityDetailsController controller = controllerAndView.getController();
-            controller.setData(model);
+            PriorityUiModel edit = new PriorityUiModel(model);
+            controller.setData(edit);
             initOwner(owner);
             initModality(Modality.APPLICATION_MODAL);
             DialogPane dialogPane = optional.get();
