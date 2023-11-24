@@ -1,59 +1,46 @@
 package cj.software.genetics.schedule.client.entity.ui;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.paint.Color;
 
-import javax.validation.constraints.NotNull;
-import java.io.Serial;
-import java.io.Serializable;
+public class ColorPair {
 
-public class ColorPair implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+    private final ObjectProperty<Color> foreground;
 
-    @NotNull
-    @SuppressWarnings("java:S1948")     // we won't serialize into a binary file
-    private Color foreground;
+    private final ObjectProperty<Color> background;
 
-    @NotNull
-    @SuppressWarnings("java:S1948")     // we won't serialize into a binary file
-    private Color background;
+    public ColorPair(ColorPair source) {
+        this.foreground = new SimpleObjectProperty<>(source.getForeground());
+        this.background = new SimpleObjectProperty<>(source.getBackground());
+    }
 
-    private ColorPair() {
+    public ColorPair(ObjectProperty<Color> foreground, ObjectProperty<Color> background) {
+        this.foreground = foreground;
+        this.background = background;
     }
 
     public Color getForeground() {
+        return foreground.get();
+    }
+
+    public ObjectProperty<Color> foregroundProperty() {
         return foreground;
     }
 
+    public void setForeground(Color foreground) {
+        this.foreground.set(foreground);
+    }
+
     public Color getBackground() {
+        return background.get();
+    }
+
+    public ObjectProperty<Color> backgroundProperty() {
         return background;
     }
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public static class Builder {
-        protected ColorPair instance;
-
-        protected Builder() {
-            instance = new ColorPair();
-        }
-
-        public ColorPair build() {
-            ColorPair result = instance;
-            instance = null;
-            return result;
-        }
-
-        public Builder withForeground(Color foreground) {
-            instance.foreground = foreground;
-            return this;
-        }
-
-        public Builder withBackground(Color background) {
-            instance.background = background;
-            return this;
-        }
+    public void setBackground(Color background) {
+        this.background.set(background);
     }
 }

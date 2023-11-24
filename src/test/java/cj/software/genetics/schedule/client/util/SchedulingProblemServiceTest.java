@@ -4,6 +4,7 @@ import cj.software.genetics.schedule.client.entity.ui.ColorPair;
 import cj.software.genetics.schedule.client.entity.ui.PriorityUiModel;
 import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
 import cj.software.genetics.schedule.client.entity.ui.TasksUiModel;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import org.assertj.core.api.SoftAssertions;
@@ -54,7 +55,7 @@ class SchedulingProblemServiceTest {
         softy.assertThat(model.getColorPair())
                 .as("color pair")
                 .usingRecursiveComparison()
-                .isEqualTo(ColorPair.builder().withBackground(Color.RED).withForeground(Color.BLACK).build());
+                .isEqualTo(new ColorPair(new SimpleObjectProperty<>(Color.BLACK), new SimpleObjectProperty<>(Color.RED)));
         softy.assertThat(tasks).as("tasks").hasSize(3);
         softy.assertAll();
         softy = new SoftAssertions();
@@ -72,7 +73,7 @@ class SchedulingProblemServiceTest {
         softy.assertThat(model.getColorPair())
                 .as("color pair")
                 .usingRecursiveComparison()
-                .isEqualTo(ColorPair.builder().withBackground(Color.YELLOW).withForeground(Color.BLACK).build());
+                .isEqualTo(new ColorPair(new SimpleObjectProperty<>(Color.BLACK), new SimpleObjectProperty<>(Color.YELLOW)));
         softy.assertThat(tasks).as("tasks").hasSize(2);
         softy.assertAll();
         softy = new SoftAssertions();
@@ -89,7 +90,7 @@ class SchedulingProblemServiceTest {
         softy.assertThat(model.getColorPair())
                 .as("color pair")
                 .usingRecursiveComparison()
-                .isEqualTo(ColorPair.builder().withBackground(Color.GREEN).withForeground(Color.YELLOW).build());
+                .isEqualTo(new ColorPair(new SimpleObjectProperty<>(Color.YELLOW), new SimpleObjectProperty<>(Color.GREEN)));
         softy.assertThat(tasks).as("tasks").hasSize(1);
         softy.assertAll();
         softy = new SoftAssertions();
@@ -99,6 +100,6 @@ class SchedulingProblemServiceTest {
 
     private void assertTask(SoftAssertions softy, int index, TasksUiModel model, int expCount, Duration expDuration) {
         softy.assertThat(model.getCount()).as("count #%d", index).isEqualTo(expCount);
-        softy.assertThat(model.getDuration()).as("duration #%d", index).isEqualTo(expDuration);
+        softy.assertThat(model.getDuration().toDuration()).as("duration #%d", index).isEqualTo(expDuration);
     }
 }

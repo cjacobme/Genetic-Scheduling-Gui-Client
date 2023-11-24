@@ -1,5 +1,6 @@
 package cj.software.genetics.schedule.client.util;
 
+import cj.software.genetics.schedule.api.entity.TimeWithUnit;
 import cj.software.genetics.schedule.client.entity.ui.ColorPair;
 import cj.software.genetics.schedule.client.entity.ui.PriorityUiModel;
 import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
@@ -11,8 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import org.springframework.stereotype.Service;
-
-import java.time.Duration;
 
 @Service
 public class SchedulingProblemService {
@@ -34,37 +33,37 @@ public class SchedulingProblemService {
     }
 
     private PriorityUiModel createPrio0() {
-        TasksUiModel tasks0 = new TasksUiModel(new SimpleObjectProperty<>(Duration.ofSeconds(10)), new SimpleIntegerProperty(17));
-        TasksUiModel tasks1 = new TasksUiModel(new SimpleObjectProperty<>(Duration.ofSeconds(20)), new SimpleIntegerProperty(13));
-        TasksUiModel tasks2 = new TasksUiModel(new SimpleObjectProperty<>(Duration.ofMinutes(1)), new SimpleIntegerProperty(10));
+        TasksUiModel tasks0 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofSeconds(10)), new SimpleIntegerProperty(17));
+        TasksUiModel tasks1 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofSeconds(20)), new SimpleIntegerProperty(13));
+        TasksUiModel tasks2 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofMinutes(1)), new SimpleIntegerProperty(10));
         ObservableList<TasksUiModel> tasks = FXCollections.observableArrayList(tasks0, tasks1, tasks2);
         PriorityUiModel result = new PriorityUiModel(
                 new SimpleIntegerProperty(0),
                 new SimpleIntegerProperty(500),
-                new SimpleObjectProperty<>(ColorPair.builder().withBackground(Color.RED).withForeground(Color.BLACK).build()),
+                new SimpleObjectProperty<>(new ColorPair(new SimpleObjectProperty<>(Color.BLACK), new SimpleObjectProperty<>(Color.RED))),
                 tasks);
         return result;
     }
 
     private PriorityUiModel createPrio1() {
-        TasksUiModel tasks0 = new TasksUiModel(new SimpleObjectProperty<>(Duration.ofSeconds(10)), new SimpleIntegerProperty(10));
-        TasksUiModel tasks1 = new TasksUiModel(new SimpleObjectProperty<>(Duration.ofSeconds(30)), new SimpleIntegerProperty(20));
+        TasksUiModel tasks0 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofSeconds(10)), new SimpleIntegerProperty(10));
+        TasksUiModel tasks1 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofSeconds(30)), new SimpleIntegerProperty(20));
         ObservableList<TasksUiModel> tasks = FXCollections.observableArrayList(tasks0, tasks1);
         PriorityUiModel result = new PriorityUiModel(
                 new SimpleIntegerProperty(1),
                 new SimpleIntegerProperty(100),
-                new SimpleObjectProperty<>(ColorPair.builder().withBackground(Color.YELLOW).withForeground(Color.BLACK).build()),
+                new SimpleObjectProperty<>(new ColorPair(new SimpleObjectProperty<>(Color.BLACK), new SimpleObjectProperty<>(Color.YELLOW))),
                 tasks);
         return result;
     }
 
     private PriorityUiModel createPrio2() {
-        TasksUiModel tasks0 = new TasksUiModel(new SimpleObjectProperty<>(Duration.ofSeconds(15)), new SimpleIntegerProperty(12));
+        TasksUiModel tasks0 = new TasksUiModel(new SimpleObjectProperty<>(TimeWithUnit.ofSeconds(15)), new SimpleIntegerProperty(12));
         ObservableList<TasksUiModel> tasks = FXCollections.observableArrayList(tasks0);
         PriorityUiModel result = new PriorityUiModel(
                 new SimpleIntegerProperty(2),
                 new SimpleIntegerProperty(150),
-                new SimpleObjectProperty<>(ColorPair.builder().withBackground(Color.GREEN).withForeground(Color.YELLOW).build()),
+                new SimpleObjectProperty<>(new ColorPair(new SimpleObjectProperty<>(Color.YELLOW), new SimpleObjectProperty<>(Color.GREEN))),
                 tasks);
         return result;
     }

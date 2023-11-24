@@ -1,29 +1,38 @@
 package cj.software.genetics.schedule.client.entity.ui;
 
+import cj.software.genetics.schedule.api.entity.TimeWithUnit;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
-
-import java.time.Duration;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 public class TasksUiModel {
-    private final ObjectProperty<Duration> duration;
+    private final ObjectProperty<TimeWithUnit> duration;
 
     private final IntegerProperty count;
 
-    public TasksUiModel(ObjectProperty<Duration> duration, IntegerProperty count) {
+    public TasksUiModel(ObjectProperty<TimeWithUnit> duration, IntegerProperty count) {
         this.duration = duration;
         this.count = count;
     }
 
-    public Duration getDuration() {
+    /**
+     * copy constructor
+     */
+    public TasksUiModel(TasksUiModel source) {
+        this.duration = new SimpleObjectProperty<>(new TimeWithUnit(source.getDuration()));
+        this.count = new SimpleIntegerProperty(source.getCount());
+    }
+
+    public TimeWithUnit getDuration() {
         return duration.get();
     }
 
-    public ObjectProperty<Duration> durationProperty() {
+    public ObjectProperty<TimeWithUnit> durationProperty() {
         return duration;
     }
 
-    public void setDuration(Duration duration) {
+    public void setDuration(TimeWithUnit duration) {
         this.duration.set(duration);
     }
 
