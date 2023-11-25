@@ -10,7 +10,9 @@ import cj.software.genetics.schedule.client.entity.ui.ColorPair;
 import cj.software.genetics.schedule.client.entity.ui.PriorityUiModel;
 import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
 import cj.software.genetics.schedule.client.entity.ui.TasksUiModel;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -82,8 +84,12 @@ class ConverterTest {
         IntegerProperty workersCount = new SimpleIntegerProperty(2);
         PriorityUiModel priorityUiModel = createOtherPrio();
         ObservableList<PriorityUiModel> priorities = FXCollections.observableArrayList(priorityUiModel);
+        IntegerProperty elitismCount = new SimpleIntegerProperty(2);
+        IntegerProperty tournamentSize = new SimpleIntegerProperty(6);
+        DoubleProperty mutationRate = new SimpleDoubleProperty(0.4);
 
-        SchedulingProblemUiModel result = new SchedulingProblemUiModel(priorities, solutionsCount, workersCount);
+        SchedulingProblemUiModel result = new SchedulingProblemUiModel(
+                priorities, solutionsCount, workersCount, elitismCount, tournamentSize, mutationRate);
         return result;
     }
 

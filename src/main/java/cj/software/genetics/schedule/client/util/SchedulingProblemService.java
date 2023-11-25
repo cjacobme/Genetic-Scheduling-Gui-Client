@@ -5,7 +5,9 @@ import cj.software.genetics.schedule.client.entity.ui.ColorPair;
 import cj.software.genetics.schedule.client.entity.ui.PriorityUiModel;
 import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
 import cj.software.genetics.schedule.client.entity.ui.TasksUiModel;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -20,7 +22,16 @@ public class SchedulingProblemService {
         IntegerProperty solutionCount = new SimpleIntegerProperty(100);
         IntegerProperty workerCount = new SimpleIntegerProperty(5);
         ObservableList<PriorityUiModel> priorities = createPriorities();
-        SchedulingProblemUiModel result = new SchedulingProblemUiModel(priorities, solutionCount, workerCount);
+        IntegerProperty elitismCount = new SimpleIntegerProperty(3);
+        IntegerProperty tournamentSize = new SimpleIntegerProperty(10);
+        DoubleProperty mutationRate = new SimpleDoubleProperty(0.1);
+        SchedulingProblemUiModel result = new SchedulingProblemUiModel(
+                priorities,
+                solutionCount,
+                workerCount,
+                elitismCount,
+                tournamentSize,
+                mutationRate);
         return result;
     }
 
