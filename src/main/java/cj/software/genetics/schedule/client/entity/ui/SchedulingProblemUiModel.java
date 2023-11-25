@@ -1,6 +1,8 @@
 package cj.software.genetics.schedule.client.entity.ui;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,10 +15,25 @@ public class SchedulingProblemUiModel {
 
     private final IntegerProperty workerCount;
 
-    public SchedulingProblemUiModel(ObservableList<PriorityUiModel> priorities, IntegerProperty solutionCount, IntegerProperty workerCount) {
+    private final IntegerProperty elitismCount;
+
+    private final IntegerProperty tournamentSize;
+
+    private final DoubleProperty mutationRate;
+
+    public SchedulingProblemUiModel(
+            ObservableList<PriorityUiModel> priorities,
+            IntegerProperty solutionCount,
+            IntegerProperty workerCount,
+            IntegerProperty elitismCount,
+            IntegerProperty tournameSize,
+            DoubleProperty mutationRate) {
         this.priorities = priorities;
         this.solutionCount = solutionCount;
         this.workerCount = workerCount;
+        this.elitismCount = elitismCount;
+        this.tournamentSize = tournameSize;
+        this.mutationRate = mutationRate;
     }
 
     /**
@@ -26,6 +43,9 @@ public class SchedulingProblemUiModel {
         this.solutionCount = new SimpleIntegerProperty(source.getSolutionCount());
         this.workerCount = new SimpleIntegerProperty(source.getWorkerCount());
         this.priorities = copyPriorities(source.getPriorities());
+        this.elitismCount = new SimpleIntegerProperty(source.getElitismCount());
+        this.tournamentSize = new SimpleIntegerProperty(source.getTournamentSize());
+        this.mutationRate = new SimpleDoubleProperty(source.getMutationRate());
     }
 
     private ObservableList<PriorityUiModel> copyPriorities(ObservableList<PriorityUiModel> source) {
@@ -67,5 +87,41 @@ public class SchedulingProblemUiModel {
 
     public void setWorkerCount(int workerCount) {
         this.workerCount.set(workerCount);
+    }
+
+    public int getElitismCount() {
+        return elitismCount.get();
+    }
+
+    public IntegerProperty elitismCountProperty() {
+        return elitismCount;
+    }
+
+    public void setElitismCount(int elitismCount) {
+        this.elitismCount.set(elitismCount);
+    }
+
+    public int getTournamentSize() {
+        return tournamentSize.get();
+    }
+
+    public IntegerProperty tournamentSizeProperty() {
+        return tournamentSize;
+    }
+
+    public void setTournamentSize(int tournamentSize) {
+        this.tournamentSize.set(tournamentSize);
+    }
+
+    public double getMutationRate() {
+        return mutationRate.get();
+    }
+
+    public DoubleProperty mutationRateProperty() {
+        return mutationRate;
+    }
+
+    public void setMutationRate(double mutationRate) {
+        this.mutationRate.set(mutationRate);
     }
 }
