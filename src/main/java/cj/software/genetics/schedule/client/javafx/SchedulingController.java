@@ -1,6 +1,7 @@
 package cj.software.genetics.schedule.client.javafx;
 
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostInput;
+import cj.software.genetics.schedule.client.Constants;
 import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
 import cj.software.genetics.schedule.client.util.Converter;
 import cj.software.genetics.schedule.client.util.SchedulingProblemService;
@@ -10,6 +11,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.MenuBar;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.apache.logging.log4j.LogManager;
@@ -42,6 +45,9 @@ public class SchedulingController {
     private ServerApi serverApi;
 
     @FXML
+    private MenuBar menuBar;
+
+    @FXML
     public void exit() {
         logger.info("exiting now...");
         Platform.exit();
@@ -51,7 +57,7 @@ public class SchedulingController {
     public void newProblem() {
         try {
             String correlationId = stringService.createCorrelationId();
-            MDC.put("correlation-id", correlationId);
+            MDC.put(Constants.CORRELATION_ID_KEY, correlationId);
             Window owner = Window.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
             SchedulingProblemUiModel model = schedulingProblemService.createDefault();
             EditSchedulingProblemDialog dialog = new EditSchedulingProblemDialog(applicationContext, owner, model, correlationId);
@@ -60,6 +66,8 @@ public class SchedulingController {
                 SchedulingProblemUiModel edited = optionalModel.get();
                 SchedulingCreatePostInput postInput = converter.toSchedulingProblemPostInput(edited);
                 serverApi.create(postInput, correlationId);
+                Stage stage = (Stage) menuBar.getScene().getWindow();
+                stage.setTitle(String.format("Scheduling Problem %s", correlationId));
             } else {
                 logger.info("dialog was cancelled");
             }
