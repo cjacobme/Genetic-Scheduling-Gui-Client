@@ -19,7 +19,8 @@ public class EditSchedulingProblemDialog extends Dialog<SchedulingProblemUiModel
     public EditSchedulingProblemDialog(
             ConfigurableApplicationContext context,
             Window owner,
-            SchedulingProblemUiModel model) {
+            SchedulingProblemUiModel model,
+            String correlationId) {
         FxWeaver fxWeaver = context.getBean(FxWeaver.class);
         FxControllerAndView<EditSchedulingProblemController, DialogPane> controllerAndView =
                 fxWeaver.load(EditSchedulingProblemController.class);
@@ -29,6 +30,7 @@ public class EditSchedulingProblemDialog extends Dialog<SchedulingProblemUiModel
             SchedulingProblemUiModel edit = new SchedulingProblemUiModel(model);
             controller.setModel(edit);
             super.initOwner(owner);
+            super.setTitle(String.format("Edit Scheduling Problem %s", correlationId));
             super.initModality(Modality.APPLICATION_MODAL);
             DialogPane dialogPane = optionalDialogPane.get();
             super.setDialogPane(dialogPane);
