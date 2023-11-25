@@ -1,7 +1,8 @@
-package cj.software.genetics.schedule.client.javafx;
+package cj.software.genetics.schedule.client.javafx.control;
 
 import cj.software.genetics.schedule.client.entity.ui.ColorPair;
 import cj.software.genetics.schedule.client.entity.ui.PriorityUiModel;
+import cj.software.genetics.schedule.client.javafx.ColorService;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 
