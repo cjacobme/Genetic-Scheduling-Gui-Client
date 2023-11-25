@@ -22,7 +22,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
@@ -71,9 +70,6 @@ public class SchedulingController implements Initializable {
     private ColorService colorService;
 
     private final ObjectProperty<Population> population = new SimpleObjectProperty<>();
-
-    @FXML
-    private MenuBar menuBar;
 
     @FXML
     private ScrollPane scrollPane;
@@ -132,8 +128,9 @@ public class SchedulingController implements Initializable {
                 SchedulingCreatePostOutput schedulingCreatePostOutput = serverApi.create(postInput, correlationId);
                 Population returnedPopulation = schedulingCreatePostOutput.getPopulation();
                 setPopulation(returnedPopulation);
-                Stage stage = (Stage) menuBar.getScene().getWindow();
+                Stage stage = (Stage) btnMultipleSteps.getScene().getWindow();
                 stage.setTitle(String.format("Scheduling Problem %s", correlationId));
+                btnMultipleSteps.requestFocus();
             } else {
                 logger.info("dialog was cancelled");
             }
