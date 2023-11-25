@@ -5,7 +5,6 @@ import cj.software.genetics.schedule.client.entity.configuration.ConfigurationHo
 import cj.software.genetics.schedule.client.entity.configuration.Server;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,7 +24,7 @@ public class ConfigurationDumper implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        try (MDC.MDCCloseable ignored = MDC.putCloseable(Constants.CORRELATION_ID_KEY, "config")) {
+        try (MdcSetter mdcSetter = new MdcSetter(Constants.CORRELATION_ID_KEY, "config")) {
             logger.info("##############################################################################");
             logger.info("#####     List of all properties                                         #####");
             logger.info("");
