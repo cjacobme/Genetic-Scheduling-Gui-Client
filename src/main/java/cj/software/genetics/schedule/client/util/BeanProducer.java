@@ -5,6 +5,8 @@ import cj.software.genetics.schedule.client.entity.configuration.Server;
 import javafx.util.converter.NumberStringConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -34,6 +36,8 @@ public class BeanProducer {
         WebClient result = WebClient.builder()
                 .baseUrl(url.toString())
                 .exchangeStrategies(exchangeStrategies)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE)
                 .build();
         return result;
     }
