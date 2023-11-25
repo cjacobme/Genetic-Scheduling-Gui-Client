@@ -4,6 +4,8 @@ import cj.software.genetics.schedule.client.entity.ui.ColorPair;
 import cj.software.genetics.schedule.client.entity.ui.PriorityUiModel;
 import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
 import cj.software.genetics.schedule.client.entity.ui.TasksUiModel;
+import cj.software.genetics.schedule.client.javafx.control.ColorsTableCellFactory;
+import cj.software.genetics.schedule.client.javafx.control.TasksSubTableCellFactory;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;

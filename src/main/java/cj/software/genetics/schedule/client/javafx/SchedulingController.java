@@ -6,6 +6,7 @@ import cj.software.genetics.schedule.api.entity.SchedulingCreatePostOutput;
 import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.client.Constants;
 import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
+import cj.software.genetics.schedule.client.javafx.control.SolutionPane;
 import cj.software.genetics.schedule.client.util.Converter;
 import cj.software.genetics.schedule.client.util.SchedulingProblemService;
 import cj.software.genetics.schedule.client.util.ServerApi;
@@ -63,6 +64,9 @@ public class SchedulingController implements Initializable {
 
     @Autowired
     private ServerApi serverApi;
+
+    @Autowired
+    private ColorService colorService;
 
     private ObjectProperty<Population> population = new SimpleObjectProperty<>();
 
@@ -125,7 +129,6 @@ public class SchedulingController implements Initializable {
                 setPopulation(returnedPopulation);
                 Stage stage = (Stage) menuBar.getScene().getWindow();
                 stage.setTitle(String.format("Scheduling Problem %s", correlationId));
-                tfStatus.setText("problem object returned from server");
             } else {
                 logger.info("dialog was cancelled");
             }
@@ -166,6 +169,9 @@ public class SchedulingController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        SolutionPane solutionPane = new SolutionPane(colorService);
+        scrollPane.setContent(solutionPane);
+        tfStatus.textProperty().bind(solutionPane.statusProperty());
         ObjectProperty<Population> property = populationProperty();
         spNumCycles.disableProperty().bind(Bindings.isNull(property));
         btnSingleStep.disableProperty().bind(Bindings.isNull(property));
@@ -178,26 +184,22 @@ public class SchedulingController implements Initializable {
         spNumCycles.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000, 30));
         int scaleValue = spScale.valueProperty().intValue();
         lbScale.setText(String.format("%d", scaleValue));
-        /*
-        tblSolutions.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) ->
-                solutionControl.setSolution(newValue));
-                */
+        tblSolutions.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+                solutionPane.setSolution(newValue));
         spScale.valueProperty().addListener((observableValue, numbOldValue, numbNewValue) -> {
             if (numbNewValue != null) {
                 int newValue = numbNewValue.intValue();
                 lbScale.setText(String.format("%d", newValue));
-                /*
-                solutionControl.setScale(newValue);
-                solutionControl.setSolution(null);
-                if (population != null) {
+                solutionPane.setScale(newValue);
+                solutionPane.setSolution(null);
+                Population local = getPopulation();
+                if (local != null) {
                     int selectedIndex = tblSolutions.getSelectionModel().getSelectedIndex();
                     if (selectedIndex >= 0) {
-                        Solution solution = population.get(selectedIndex);
-                        solutionControl.setSolution(solution);
+                        Solution solution = local.getSolutions().get(selectedIndex);
+                        solutionPane.setSolution(solution);
                     }
                 }
-
-                 */
             }
         });
     }
