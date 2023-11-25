@@ -1,8 +1,11 @@
 package cj.software.genetics.schedule.client.util;
 
+import cj.software.genetics.schedule.api.entity.BreedPostInput;
+import cj.software.genetics.schedule.api.entity.Population;
 import cj.software.genetics.schedule.api.entity.ProblemPriority;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostInput;
 import cj.software.genetics.schedule.api.entity.SchedulingProblem;
+import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.api.entity.SolutionSetup;
 import cj.software.genetics.schedule.api.entity.Task;
 import cj.software.genetics.schedule.api.entity.TimeWithUnit;
@@ -274,5 +277,49 @@ class ConverterTest {
         }
         softy.assertAll();
         assertThat(actual).hasSize(expected.size());
+    }
+
+    @Test
+    void toBreedPostInputStandard() {
+        SchedulingProblemUiModel model = schedulingProblemService.createDefault();
+        Population population = Population.builder()
+                .withGenerationStep(13)
+                .withSolutions(List.of(
+                        Solution.builder().
+                                withGenerationStep(12)
+                                .withFitnessValue(0.1)
+                                .withIndexInPopulation(44)
+                                .build()))
+                .build();
+        BreedPostInput expected = BreedPostInput.builder()
+                .withNumSteps(2)
+                .withElitismCount(3)
+                .withTournamentSize(10)
+                .withMutationRate(0.1)
+                .withPopulation(population)
+                .build();
+        assertBreedPostInput(model, 2, population, expected);
+    }
+
+    @Test
+    void toBreedPostInputOther() {
+        SchedulingProblemUiModel model = createOtherModel();
+        Population population = Population.builder()
+                .withGenerationStep(42)
+                .build();
+        BreedPostInput expected = BreedPostInput.builder()
+                .withNumSteps(5)
+                .withElitismCount(2)
+                .withTournamentSize(6)
+                .withMutationRate(0.4)
+                .withPopulation(population)
+                .build();
+        assertBreedPostInput(model, 5, population, expected);
+
+    }
+
+    private void assertBreedPostInput(SchedulingProblemUiModel schedulingProblemUiModel, int numSteps, Population population, BreedPostInput expected) {
+        BreedPostInput actual = converter.toBreedPostInput(schedulingProblemUiModel, numSteps, population);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 }
