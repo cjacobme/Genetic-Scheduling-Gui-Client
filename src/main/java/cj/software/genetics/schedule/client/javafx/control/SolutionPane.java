@@ -5,6 +5,7 @@ import cj.software.genetics.schedule.api.entity.SolutionPriority;
 import cj.software.genetics.schedule.api.entity.Task;
 import cj.software.genetics.schedule.api.entity.TimeWithUnit;
 import cj.software.genetics.schedule.api.entity.Worker;
+import cj.software.genetics.schedule.client.entity.ui.ColorPair;
 import cj.software.genetics.schedule.client.javafx.ColorService;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -37,13 +38,15 @@ public class SolutionPane extends Pane {
 
     private final Canvas canvas = new Canvas();
 
-    private IntegerProperty scale = new SimpleIntegerProperty(15);
+    private final IntegerProperty scale = new SimpleIntegerProperty(5);
 
-    private ObjectProperty<Solution> solution = new SimpleObjectProperty<>();
+    private final ObjectProperty<Solution> solution = new SimpleObjectProperty<>();
 
     private final ColorService colorService;
 
     private final List<Node> myChildren = new ArrayList<>();
+
+    private Map<Integer, ColorPair> priorityColors;
 
     private final StringProperty status = new SimpleStringProperty();
 
@@ -75,7 +78,9 @@ public class SolutionPane extends Pane {
         return solution;
     }
 
-    public void setSolution(Solution solution) {
+    public void setSolution(Solution solution, Map<Integer, ColorPair> priorityColors) {
+        deleteOldChildren();
+        this.priorityColors = priorityColors;
         this.solution.set(solution);
         draw();
     }
@@ -132,12 +137,16 @@ public class SolutionPane extends Pane {
     private double draw(SolutionPriority priority, double posX, double posY, ObservableList<Node> children) {
         double result = posX;
         SortedMap<Integer, Task> tasks = priority.getTasks();
+        int priorityValue = priority.getValue();
+        ColorPair colorPair = priorityColors.get(priorityValue);
+        String style = colorService.constructStyle(colorPair);
         for (Map.Entry<Integer, Task> entry : tasks.entrySet()) {
             Task task = entry.getValue();
             int identifier = task.getIdentifier();
             TimeWithUnit duration = task.getDuration();
             String text = String.format("%d (%s)", identifier, duration);
             Button button = new Button(text);
+            button.setStyle(style);
             double width = duration.toSeconds() * (double) getScale();
             button.setLayoutX(result);
             button.setLayoutY(posY);
@@ -164,5 +173,12 @@ public class SolutionPane extends Pane {
         result.setMinHeight(ROW_HEIGHT);
         result.setPrefHeight(ROW_HEIGHT);
         return result;
+    }
+
+    private void deleteOldChildren() {
+        ObservableList<Node> children = super.getChildren();
+        for (Node child : myChildren) {
+            children.remove(child);
+        }
     }
 }

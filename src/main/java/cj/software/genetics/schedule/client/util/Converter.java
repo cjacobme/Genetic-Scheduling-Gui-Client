@@ -6,6 +6,7 @@ import cj.software.genetics.schedule.api.entity.SchedulingProblem;
 import cj.software.genetics.schedule.api.entity.SolutionSetup;
 import cj.software.genetics.schedule.api.entity.Task;
 import cj.software.genetics.schedule.api.entity.TimeWithUnit;
+import cj.software.genetics.schedule.client.entity.ui.ColorPair;
 import cj.software.genetics.schedule.client.entity.ui.PriorityUiModel;
 import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
 import cj.software.genetics.schedule.client.entity.ui.TasksUiModel;
@@ -14,9 +15,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class Converter {
+
+    public Map<Integer, ColorPair> toPriorityColorPairMap(SchedulingProblemUiModel schedulingProblemUiModel) {
+        Map<Integer, ColorPair> result = new HashMap<>();
+        ObservableList<PriorityUiModel> priorities = schedulingProblemUiModel.getPriorities();
+        for (PriorityUiModel priority : priorities) {
+            int value = priority.getValue();
+            ColorPair colorPair = priority.getColorPair();
+            result.put(value, colorPair);
+        }
+        return result;
+    }
 
     private static class Counter {
 

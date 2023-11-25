@@ -5,6 +5,7 @@ import cj.software.genetics.schedule.api.entity.SchedulingCreatePostInput;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostOutput;
 import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.client.Constants;
+import cj.software.genetics.schedule.client.entity.ui.ColorPair;
 import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
 import cj.software.genetics.schedule.client.javafx.control.SolutionPane;
 import cj.software.genetics.schedule.client.util.Converter;
@@ -42,6 +43,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -68,7 +70,7 @@ public class SchedulingController implements Initializable {
     @Autowired
     private ColorService colorService;
 
-    private ObjectProperty<Population> population = new SimpleObjectProperty<>();
+    private final ObjectProperty<Population> population = new SimpleObjectProperty<>();
 
     @FXML
     private MenuBar menuBar;
@@ -106,6 +108,8 @@ public class SchedulingController implements Initializable {
     @FXML
     private Button btnMultipleSteps;
 
+    private Map<Integer, ColorPair> priorityColors;
+
     @FXML
     public void exit() {
         logger.info("exiting now...");
@@ -123,6 +127,7 @@ public class SchedulingController implements Initializable {
             Optional<SchedulingProblemUiModel> optionalModel = dialog.showAndWait();
             if (optionalModel.isPresent()) {
                 SchedulingProblemUiModel edited = optionalModel.get();
+                this.priorityColors = converter.toPriorityColorPairMap(edited);
                 SchedulingCreatePostInput postInput = converter.toSchedulingProblemPostInput(edited);
                 SchedulingCreatePostOutput schedulingCreatePostOutput = serverApi.create(postInput, correlationId);
                 Population returnedPopulation = schedulingCreatePostOutput.getPopulation();
@@ -185,19 +190,19 @@ public class SchedulingController implements Initializable {
         int scaleValue = spScale.valueProperty().intValue();
         lbScale.setText(String.format("%d", scaleValue));
         tblSolutions.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
-                solutionPane.setSolution(newValue));
+                solutionPane.setSolution(newValue, priorityColors));
         spScale.valueProperty().addListener((observableValue, numbOldValue, numbNewValue) -> {
             if (numbNewValue != null) {
                 int newValue = numbNewValue.intValue();
                 lbScale.setText(String.format("%d", newValue));
                 solutionPane.setScale(newValue);
-                solutionPane.setSolution(null);
+                solutionPane.setSolution(null, priorityColors);
                 Population local = getPopulation();
                 if (local != null) {
                     int selectedIndex = tblSolutions.getSelectionModel().getSelectedIndex();
                     if (selectedIndex >= 0) {
                         Solution solution = local.getSolutions().get(selectedIndex);
-                        solutionPane.setSolution(solution);
+                        solutionPane.setSolution(solution, priorityColors);
                     }
                 }
             }

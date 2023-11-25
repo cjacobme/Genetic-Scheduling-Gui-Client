@@ -28,6 +28,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -92,7 +93,7 @@ class ConverterTest {
         PriorityUiModel result = new PriorityUiModel(
                 new SimpleIntegerProperty(7),
                 new SimpleIntegerProperty(150),
-                new SimpleObjectProperty<>(new ColorPair(new SimpleObjectProperty<>(Color.YELLOW), new SimpleObjectProperty<>(Color.GREEN))),
+                new SimpleObjectProperty<>(new ColorPair(new SimpleObjectProperty<>(Color.CYAN), new SimpleObjectProperty<>(Color.ORANGE))),
                 tasks);
         return result;
     }
@@ -123,7 +124,7 @@ class ConverterTest {
             return result;
         });
         SoftAssertions softy = new SoftAssertions();
-        softy.assertThat(problemPriority.getValue()).isZero();
+        softy.assertThat(problemPriority.getValue()).isEqualTo(1);
         softy.assertThat(problemPriority.getTasks()).hasSize(40);
         softy.assertThat(problemPriority.getSlotCount()).isEqualTo(500);
         softy.assertAll();
@@ -159,7 +160,7 @@ class ConverterTest {
             return result;
         });
         SoftAssertions softy = new SoftAssertions();
-        softy.assertThat(problemPriority.getValue()).isEqualTo(1);
+        softy.assertThat(problemPriority.getValue()).isEqualTo(2);
         softy.assertThat(problemPriority.getTasks()).hasSize(30);
         softy.assertThat(problemPriority.getSlotCount()).isEqualTo(100);
         softy.assertAll();
@@ -189,7 +190,7 @@ class ConverterTest {
             return result;
         });
         SoftAssertions softy = new SoftAssertions();
-        softy.assertThat(problemPriority.getValue()).isEqualTo(2);
+        softy.assertThat(problemPriority.getValue()).isEqualTo(3);
         softy.assertThat(problemPriority.getTasks()).hasSize(12);
         softy.assertAll();
         TimeWithUnit seconds15 = TimeWithUnit.ofSeconds(15);
@@ -230,5 +231,42 @@ class ConverterTest {
             softy.assertThat(task.getDuration()).as("duriation #%d", i).isEqualTo(days2);
         }
         softy.assertAll();
+    }
+
+    @Test
+    void uiPrioritiesToMapStandard() {
+        SchedulingProblemUiModel schedulingProblemUiModel = schedulingProblemService.createDefault();
+        Map<Integer, ColorPair> expected = Map.of(
+                1, new ColorPair(new SimpleObjectProperty<>(Color.BLACK), new SimpleObjectProperty<>(Color.RED)),
+                2, new ColorPair(new SimpleObjectProperty<>(Color.BLACK), new SimpleObjectProperty<>(Color.YELLOW)),
+                3, new ColorPair(new SimpleObjectProperty<>(Color.YELLOW), new SimpleObjectProperty<>(Color.GREEN)));
+        assertUiPrioritiesToMap(schedulingProblemUiModel, expected);
+    }
+
+    @Test
+    void uiPrioritiesToMapOther() {
+        SchedulingProblemUiModel schedulingProblemUiModel = createOtherModel();
+        Map<Integer, ColorPair> expected = Map.of(
+                7, new ColorPair(new SimpleObjectProperty<>(Color.CYAN), new SimpleObjectProperty<>(Color.ORANGE)));
+        assertUiPrioritiesToMap(schedulingProblemUiModel, expected);
+    }
+
+    private void assertUiPrioritiesToMap(SchedulingProblemUiModel schedulingProblemUiModel, Map<Integer, ColorPair> expected) {
+        Map<Integer, ColorPair> actual = converter.toPriorityColorPairMap(schedulingProblemUiModel);
+        SoftAssertions softy = new SoftAssertions();
+        for (Integer expKey : expected.keySet()) {
+            softy.assertThat(actual).containsKey(expKey);
+        }
+        softy.assertAll();
+        softy = new SoftAssertions();
+        for (Map.Entry<Integer, ColorPair> expEntry : expected.entrySet()) {
+            Integer key = expEntry.getKey();
+            ColorPair expValue = expEntry.getValue();
+            ColorPair actValue = actual.get(key);
+            softy.assertThat(actValue.getForeground()).as("Foreground for %d", key).isEqualTo(expValue.getForeground());
+            softy.assertThat(actValue.getBackground()).as("Background for %d", key).isEqualTo(expValue.getBackground());
+        }
+        softy.assertAll();
+        assertThat(actual).hasSize(expected.size());
     }
 }
