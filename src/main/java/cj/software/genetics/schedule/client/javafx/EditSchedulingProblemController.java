@@ -98,7 +98,14 @@ public class EditSchedulingProblemController implements Initializable {
     }
 
     public SchedulingProblemUiModel getModel() {
-        return this.model;
+        SchedulingProblemUiModel result = this.model;
+        /*
+        because there is a bug in JavaFX's spinner which does not bind the values properly when the upper/lower limit
+        is selected:
+         */
+        double mutationRate = spMutationRate.getValue();
+        result.setMutationRate(mutationRate);
+        return result;
     }
 
 
