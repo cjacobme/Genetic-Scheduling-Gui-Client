@@ -1,6 +1,7 @@
 package cj.software.genetics.schedule.client.javafx;
 
 import cj.software.genetics.schedule.api.entity.BreedPostInput;
+import cj.software.genetics.schedule.api.entity.BreedPostOutput;
 import cj.software.genetics.schedule.api.entity.Population;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostInput;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostOutput;
@@ -145,9 +146,16 @@ public class SchedulingController implements Initializable {
     }
 
     public void singleStep() {
-        BreedPostInput breedPostInput = converter.toBreedPostInput(this.schedulingProblemUiModel, 1, this.getPopulation());
-        String correlationId = MDC.get(Constants.CORRELATION_ID_KEY);
-        serverApi.breed(breedPostInput, correlationId);
+        try {
+            BreedPostInput breedPostInput = converter.toBreedPostInput(this.schedulingProblemUiModel, 1, this.getPopulation());
+            String correlationId = MDC.get(Constants.CORRELATION_ID_KEY);
+            BreedPostOutput breedPostOutput = serverApi.breed(breedPostInput, correlationId);
+            this.setPopulation(breedPostOutput.getPopulation());
+        } catch (RuntimeException exception) {
+            logger.error(exception.getMessage(), exception);
+            Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 
     public void multipleSteps() {
