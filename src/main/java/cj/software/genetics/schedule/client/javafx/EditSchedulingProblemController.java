@@ -94,7 +94,7 @@ public class EditSchedulingProblemController implements Initializable {
         Bindings.bindBidirectional(tfWorkersCount.textProperty(), model.workerCountProperty(), numberStringConverter);
         Bindings.bindBidirectional(tfElitismCount.textProperty(), model.elitismCountProperty(), numberStringConverter);
         Bindings.bindBidirectional(tfTournamentSize.textProperty(), model.tournamentSizeProperty(), numberStringConverter);
-        spMutationRate.getValueFactory().valueProperty().bindBidirectional(model.mutationRateProperty().asObject());
+        spMutationRate.getValueFactory().setValue(model.getMutationRate());
     }
 
     public SchedulingProblemUiModel getModel() {
