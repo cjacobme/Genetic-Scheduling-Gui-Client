@@ -159,7 +159,18 @@ public class SchedulingController implements Initializable {
     }
 
     public void multipleSteps() {
-        // not yet implemented
+        try {
+            int numCycles = spNumCycles.getValue();
+            BreedPostInput breedPostInput = converter.toBreedPostInput(this.schedulingProblemUiModel, numCycles, this.getPopulation());
+            String correlationId = MDC.get(Constants.CORRELATION_ID_KEY);
+            BreedPostOutput breedPostOutput = serverApi.breed(breedPostInput, correlationId);
+            this.setPopulation(breedPostOutput.getPopulation());
+        } catch (RuntimeException exception) {
+            logger.error(exception.getMessage(), exception);
+            Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
+
     }
 
     public Population getPopulation() {
