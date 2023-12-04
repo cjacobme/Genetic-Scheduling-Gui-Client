@@ -15,9 +15,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -74,6 +76,15 @@ public class EditSchedulingProblemController implements Initializable {
     @FXML
     private TextField tfWorkersCount;
 
+    @FXML
+    private TextField tfElitismCount;
+
+    @FXML
+    private TextField tfTournamentSize;
+
+    @FXML
+    private Spinner<Double> spMutationRate;
+
     private SchedulingProblemUiModel model;
 
     public void setModel(SchedulingProblemUiModel model) {
@@ -81,10 +92,20 @@ public class EditSchedulingProblemController implements Initializable {
         tblPriorities.setItems(model.getPriorities());
         Bindings.bindBidirectional(tfSolutionsCount.textProperty(), model.solutionCountProperty(), numberStringConverter);
         Bindings.bindBidirectional(tfWorkersCount.textProperty(), model.workerCountProperty(), numberStringConverter);
+        Bindings.bindBidirectional(tfElitismCount.textProperty(), model.elitismCountProperty(), numberStringConverter);
+        Bindings.bindBidirectional(tfTournamentSize.textProperty(), model.tournamentSizeProperty(), numberStringConverter);
+        spMutationRate.getValueFactory().setValue(model.getMutationRate());
     }
 
     public SchedulingProblemUiModel getModel() {
-        return this.model;
+        SchedulingProblemUiModel result = this.model;
+        /*
+        because there is a bug in JavaFX's spinner which does not bind the values properly when the upper/lower limit
+        is selected:
+         */
+        double mutationRate = spMutationRate.getValue();
+        result.setMutationRate(mutationRate);
+        return result;
     }
 
 
@@ -96,6 +117,9 @@ public class EditSchedulingProblemController implements Initializable {
         tcolSlotCount.setCellValueFactory(new PropertyValueFactory<>("slotCount"));
         btnDelete.disableProperty().bind(Bindings.isEmpty(tblPriorities.getSelectionModel().getSelectedItems()));
         btnEdit.disableProperty().bind(Bindings.isEmpty(tblPriorities.getSelectionModel().getSelectedItems()));
+        TextField spinnerTf = spMutationRate.editorProperty().get();
+        spinnerTf.setAlignment(Pos.CENTER_RIGHT);
+        spinnerTf.setFont(tfTournamentSize.getFont());
     }
 
     @FXML

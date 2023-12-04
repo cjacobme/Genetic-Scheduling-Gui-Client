@@ -1,5 +1,7 @@
 package cj.software.genetics.schedule.client.javafx;
 
+import cj.software.genetics.schedule.api.entity.BreedPostInput;
+import cj.software.genetics.schedule.api.entity.BreedPostOutput;
 import cj.software.genetics.schedule.api.entity.Population;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostInput;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostOutput;
@@ -71,6 +73,8 @@ public class SchedulingController implements Initializable {
 
     private final ObjectProperty<Population> population = new SimpleObjectProperty<>();
 
+    private SchedulingProblemUiModel schedulingProblemUiModel;
+
     @FXML
     private ScrollPane scrollPane;
 
@@ -122,9 +126,9 @@ public class SchedulingController implements Initializable {
             EditSchedulingProblemDialog dialog = new EditSchedulingProblemDialog(applicationContext, owner, model, correlationId);
             Optional<SchedulingProblemUiModel> optionalModel = dialog.showAndWait();
             if (optionalModel.isPresent()) {
-                SchedulingProblemUiModel edited = optionalModel.get();
-                this.priorityColors = converter.toPriorityColorPairMap(edited);
-                SchedulingCreatePostInput postInput = converter.toSchedulingProblemPostInput(edited);
+                this.schedulingProblemUiModel = optionalModel.get();
+                this.priorityColors = converter.toPriorityColorPairMap(schedulingProblemUiModel);
+                SchedulingCreatePostInput postInput = converter.toSchedulingProblemPostInput(schedulingProblemUiModel);
                 SchedulingCreatePostOutput schedulingCreatePostOutput = serverApi.create(postInput, correlationId);
                 Population returnedPopulation = schedulingCreatePostOutput.getPopulation();
                 setPopulation(returnedPopulation);
@@ -142,11 +146,31 @@ public class SchedulingController implements Initializable {
     }
 
     public void singleStep() {
-        // not yet implemented
+        try {
+            BreedPostInput breedPostInput = converter.toBreedPostInput(this.schedulingProblemUiModel, 1, this.getPopulation());
+            String correlationId = MDC.get(Constants.CORRELATION_ID_KEY);
+            BreedPostOutput breedPostOutput = serverApi.breed(breedPostInput, correlationId);
+            this.setPopulation(breedPostOutput.getPopulation());
+        } catch (RuntimeException exception) {
+            logger.error(exception.getMessage(), exception);
+            Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 
     public void multipleSteps() {
-        // not yet implemented
+        try {
+            int numCycles = spNumCycles.getValue();
+            BreedPostInput breedPostInput = converter.toBreedPostInput(this.schedulingProblemUiModel, numCycles, this.getPopulation());
+            String correlationId = MDC.get(Constants.CORRELATION_ID_KEY);
+            BreedPostOutput breedPostOutput = serverApi.breed(breedPostInput, correlationId);
+            this.setPopulation(breedPostOutput.getPopulation());
+        } catch (RuntimeException exception) {
+            logger.error(exception.getMessage(), exception);
+            Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
+
     }
 
     public Population getPopulation() {

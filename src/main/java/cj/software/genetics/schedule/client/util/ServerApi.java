@@ -1,5 +1,7 @@
 package cj.software.genetics.schedule.client.util;
 
+import cj.software.genetics.schedule.api.entity.BreedPostInput;
+import cj.software.genetics.schedule.api.entity.BreedPostOutput;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostInput;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostOutput;
 import cj.software.genetics.schedule.client.entity.configuration.ConfigurationHolder;
@@ -39,6 +41,24 @@ public class ServerApi {
         }
         SchedulingCreatePostOutput result = responseEntity.getBody();
         logger.info("problem object returned from server");
+        return result;
+    }
+
+    public BreedPostOutput breed(BreedPostInput input, String correlationId) {
+        WebClient.UriSpec<WebClient.RequestBodySpec> uriSpec = webClient.post();
+        Server server = configurationHolder.getServer();
+        String subPath = server.getBreedSubPath();
+        WebClient.RequestBodySpec bodySpec = uriSpec.uri(subPath);
+        WebClient.RequestHeadersSpec<?> headersSpec = bodySpec
+                .header("correlation-id", correlationId)
+                .bodyValue(input);
+        WebClient.ResponseSpec responseSpec = headersSpec.retrieve();
+        Mono<ResponseEntity<BreedPostOutput>> returned = responseSpec.toEntity(BreedPostOutput.class);
+        ResponseEntity<BreedPostOutput> responseEntity = returned.block();
+        if (responseEntity == null) {
+            throw new NullPointerException("not response entity returned");
+        }
+        BreedPostOutput result = responseEntity.getBody();
         return result;
     }
 }

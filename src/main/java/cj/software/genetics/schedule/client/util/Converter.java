@@ -1,5 +1,7 @@
 package cj.software.genetics.schedule.client.util;
 
+import cj.software.genetics.schedule.api.entity.BreedPostInput;
+import cj.software.genetics.schedule.api.entity.Population;
 import cj.software.genetics.schedule.api.entity.ProblemPriority;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostInput;
 import cj.software.genetics.schedule.api.entity.SchedulingProblem;
@@ -29,6 +31,20 @@ public class Converter {
             ColorPair colorPair = priority.getColorPair();
             result.put(value, colorPair);
         }
+        return result;
+    }
+
+    public BreedPostInput toBreedPostInput(SchedulingProblemUiModel schedulingProblemUiModel, int numSteps, Population population) {
+        int elitismCount = schedulingProblemUiModel.getElitismCount();
+        int tournamentSize = schedulingProblemUiModel.getTournamentSize();
+        double mutationRate = schedulingProblemUiModel.getMutationRate();
+        BreedPostInput result = BreedPostInput.builder()
+                .withNumSteps(numSteps)
+                .withElitismCount(elitismCount)
+                .withTournamentSize(tournamentSize)
+                .withMutationRate(mutationRate)
+                .withPopulation(population)
+                .build();
         return result;
     }
 
