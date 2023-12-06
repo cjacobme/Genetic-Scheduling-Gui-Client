@@ -303,6 +303,7 @@ class ConverterTest {
                 .withTournamentSize(10)
                 .withMutationRate(0.1)
                 .withPopulation(population)
+                .withFitnessProcedure(FitnessProcedure.LATEST)
                 .build();
         assertBreedPostInput(model, 2, population, expected);
     }
@@ -319,6 +320,7 @@ class ConverterTest {
                 .withTournamentSize(6)
                 .withMutationRate(0.4)
                 .withPopulation(population)
+                .withFitnessProcedure(FitnessProcedure.AVERAGE)
                 .build();
         assertBreedPostInput(model, 5, population, expected);
 

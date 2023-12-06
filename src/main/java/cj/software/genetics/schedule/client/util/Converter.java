@@ -39,12 +39,14 @@ public class Converter {
         int elitismCount = schedulingProblemUiModel.getElitismCount();
         int tournamentSize = schedulingProblemUiModel.getTournamentSize();
         double mutationRate = schedulingProblemUiModel.getMutationRate();
+        FitnessProcedure fitnessProcedure = schedulingProblemUiModel.getFitnessProcedure();
         BreedPostInput result = BreedPostInput.builder()
                 .withNumSteps(numSteps)
                 .withElitismCount(elitismCount)
                 .withTournamentSize(tournamentSize)
                 .withMutationRate(mutationRate)
                 .withPopulation(population)
+                .withFitnessProcedure(fitnessProcedure)
                 .build();
         return result;
     }
