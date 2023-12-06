@@ -1,5 +1,6 @@
 package cj.software.genetics.schedule.client.javafx;
 
+import cj.software.genetics.schedule.api.entity.FitnessProcedure;
 import cj.software.genetics.schedule.client.entity.ui.ColorPair;
 import cj.software.genetics.schedule.client.entity.ui.PriorityUiModel;
 import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
@@ -16,14 +17,19 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Window;
 import javafx.util.converter.NumberStringConverter;
@@ -85,7 +91,12 @@ public class EditSchedulingProblemController implements Initializable {
     @FXML
     private Spinner<Double> spMutationRate;
 
+    @FXML
+    private HBox fitnessProcedureParent;
+
     private SchedulingProblemUiModel model;
+
+    private final ToggleGroup tgFitnessProcedures = new ToggleGroup();
 
     public void setModel(SchedulingProblemUiModel model) {
         this.model = model;
@@ -95,6 +106,24 @@ public class EditSchedulingProblemController implements Initializable {
         Bindings.bindBidirectional(tfElitismCount.textProperty(), model.elitismCountProperty(), numberStringConverter);
         Bindings.bindBidirectional(tfTournamentSize.textProperty(), model.tournamentSizeProperty(), numberStringConverter);
         spMutationRate.getValueFactory().setValue(model.getMutationRate());
+        setSelectedFitnessProcedure(model.getFitnessProcedure());
+    }
+
+    private void setSelectedFitnessProcedure(FitnessProcedure fitnessProcedure) {
+        ObservableList<Toggle> toggles = tgFitnessProcedures.getToggles();
+        for (Toggle toggle : toggles) {
+            Object userData = toggle.getUserData();
+            if (fitnessProcedure.equals(userData)) {
+                toggle.setSelected(true);
+                break;
+            }
+        }
+    }
+
+    private FitnessProcedure getSelectedFitnessProcedure() {
+        Toggle toggle = tgFitnessProcedures.getSelectedToggle();
+        FitnessProcedure result = (FitnessProcedure) toggle.getUserData();
+        return result;
     }
 
     public SchedulingProblemUiModel getModel() {
@@ -105,6 +134,8 @@ public class EditSchedulingProblemController implements Initializable {
          */
         double mutationRate = spMutationRate.getValue();
         result.setMutationRate(mutationRate);
+        FitnessProcedure fitnessProcedure = getSelectedFitnessProcedure();
+        result.setFitnessProcedure(fitnessProcedure);
         return result;
     }
 
@@ -120,6 +151,18 @@ public class EditSchedulingProblemController implements Initializable {
         TextField spinnerTf = spMutationRate.editorProperty().get();
         spinnerTf.setAlignment(Pos.CENTER_RIGHT);
         spinnerTf.setFont(tfTournamentSize.getFont());
+        addFitnessProcedureValues();
+    }
+
+    private void addFitnessProcedureValues() {
+        FitnessProcedure[] fitnessProcedures = FitnessProcedure.values();
+        ObservableList<Node> children = fitnessProcedureParent.getChildren();
+        for (FitnessProcedure fitnessProcedure : fitnessProcedures) {
+            RadioButton radioButton = new RadioButton(fitnessProcedure.toString());
+            radioButton.setUserData(fitnessProcedure);
+            radioButton.setToggleGroup(tgFitnessProcedures);
+            children.add(radioButton);
+        }
     }
 
     @FXML

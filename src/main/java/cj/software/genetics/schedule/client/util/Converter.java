@@ -1,6 +1,7 @@
 package cj.software.genetics.schedule.client.util;
 
 import cj.software.genetics.schedule.api.entity.BreedPostInput;
+import cj.software.genetics.schedule.api.entity.FitnessProcedure;
 import cj.software.genetics.schedule.api.entity.Population;
 import cj.software.genetics.schedule.api.entity.ProblemPriority;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostInput;
@@ -122,9 +123,11 @@ public class Converter {
     private SolutionSetup toSolutionSetup(SchedulingProblemUiModel uiModel) {
         int solutionCount = uiModel.getSolutionCount();
         int workerCount = uiModel.getWorkerCount();
+        FitnessProcedure fitnessProcedure = uiModel.getFitnessProcedure();
         SolutionSetup result = SolutionSetup.builder()
                 .withSolutionCount(solutionCount)
                 .withWorkersPerSolutionCount(workerCount)
+                .withFitnessProcedure(fitnessProcedure)
                 .build();
         return result;
     }
