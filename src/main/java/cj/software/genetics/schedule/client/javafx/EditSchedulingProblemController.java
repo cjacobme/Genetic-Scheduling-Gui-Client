@@ -96,7 +96,7 @@ public class EditSchedulingProblemController implements Initializable {
 
     private SchedulingProblemUiModel model;
 
-    private final ToggleGroup tgFitnessProcedures = new ToggleGroup();
+    private ToggleGroup tgFitnessProcedures;
 
     public void setModel(SchedulingProblemUiModel model) {
         this.model = model;
@@ -122,6 +122,9 @@ public class EditSchedulingProblemController implements Initializable {
 
     private FitnessProcedure getSelectedFitnessProcedure() {
         Toggle toggle = tgFitnessProcedures.getSelectedToggle();
+        if (toggle == null) {
+            throw new IllegalStateException("no toggle button selected");
+        }
         FitnessProcedure result = (FitnessProcedure) toggle.getUserData();
         return result;
     }
@@ -151,6 +154,7 @@ public class EditSchedulingProblemController implements Initializable {
         TextField spinnerTf = spMutationRate.editorProperty().get();
         spinnerTf.setAlignment(Pos.CENTER_RIGHT);
         spinnerTf.setFont(tfTournamentSize.getFont());
+        tgFitnessProcedures = new ToggleGroup();
         addFitnessProcedureValues();
     }
 

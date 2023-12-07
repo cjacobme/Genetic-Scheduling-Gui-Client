@@ -166,9 +166,7 @@ public class SolutionPane extends Pane {
             myChildren.add(button);
             int finalTotalDuration = totalDuration;
             button.setOnAction(event -> {
-                StringBuilder sb = new StringBuilder(task.toString())
-                        .append(String.format(" end / s = %d", finalTotalDuration));
-                String message = sb.toString();
+                String message = String.format("%s end / s = %d", task, finalTotalDuration);
                 setStatus(message);
             });
             posX += width;
