@@ -33,6 +33,7 @@ public class ServerApi {
         WebClient.RequestHeadersSpec<?> headersSpec = bodySpec
                 .header("correlation-id", correlationId)
                 .bodyValue(input);
+        logger.info("trigger server to create an initial population...");
         WebClient.ResponseSpec responseSpec = headersSpec.retrieve();
         Mono<ResponseEntity<SchedulingCreatePostOutput>> returned = responseSpec.toEntity(SchedulingCreatePostOutput.class);
         ResponseEntity<SchedulingCreatePostOutput> responseEntity = returned.block();
@@ -40,7 +41,7 @@ public class ServerApi {
             throw new NullPointerException("no response entity returned");
         }
         SchedulingCreatePostOutput result = responseEntity.getBody();
-        logger.info("problem object returned from server");
+        logger.info("population returned from server");
         return result;
     }
 
@@ -52,6 +53,7 @@ public class ServerApi {
         WebClient.RequestHeadersSpec<?> headersSpec = bodySpec
                 .header("correlation-id", correlationId)
                 .bodyValue(input);
+        logger.info("trigger server to breed...");
         WebClient.ResponseSpec responseSpec = headersSpec.retrieve();
         Mono<ResponseEntity<BreedPostOutput>> returned = responseSpec.toEntity(BreedPostOutput.class);
         ResponseEntity<BreedPostOutput> responseEntity = returned.block();
@@ -59,6 +61,7 @@ public class ServerApi {
             throw new NullPointerException("not response entity returned");
         }
         BreedPostOutput result = responseEntity.getBody();
+        logger.info("breed result returned from server");
         return result;
     }
 }

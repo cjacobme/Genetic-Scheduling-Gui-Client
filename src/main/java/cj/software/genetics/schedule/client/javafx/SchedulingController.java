@@ -116,6 +116,8 @@ public class SchedulingController implements Initializable {
 
     private Map<Integer, ColorPair> priorityColors;
 
+    private SolutionPane solutionPane;
+
     @FXML
     public void exit() {
         logger.info("exiting now...");
@@ -180,6 +182,7 @@ public class SchedulingController implements Initializable {
             String correlationId = MDC.get(Constants.CORRELATION_ID_KEY);
             BreedPostOutput breedPostOutput = serverApi.breed(breedPostInput, correlationId);
             this.setPopulation(breedPostOutput.getPopulation());
+            solutionPane.setStatus("breed result returned from server");
         } catch (RuntimeException exception) {
             logger.error(exception.getMessage(), exception);
             Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage(), ButtonType.OK);
@@ -210,7 +213,7 @@ public class SchedulingController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        SolutionPane solutionPane = new SolutionPane(colorService);
+        solutionPane = new SolutionPane(colorService);
         scrollPane.setContent(solutionPane);
         tfStatus.textProperty().bind(solutionPane.statusProperty());
         ObjectProperty<Population> property = populationProperty();
