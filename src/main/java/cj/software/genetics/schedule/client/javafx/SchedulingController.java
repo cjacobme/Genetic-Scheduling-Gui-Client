@@ -221,7 +221,7 @@ public class SchedulingController implements Initializable {
         String tableColStyle = "-fx-alignment: CENTER-RIGHT;-fx-font-family: Monospaced Regular;";
         tcolCycle.setStyle(tableColStyle);
         tcolRelevant.setCellValueFactory(cellData -> new SimpleObjectProperty<>(
-                String.format("%8.3f", cellData.getValue().getFitness().getDurationInSeconds())));
+                String.format("%8.3f", cellData.getValue().getFitness().getRelevantValue())));
         tcolRelevant.setStyle(tableColStyle);
         spNumCycles.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000, 30));
         int scaleValue = spScale.valueProperty().intValue();

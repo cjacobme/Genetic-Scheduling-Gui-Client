@@ -291,7 +291,7 @@ class ConverterTest {
                 .withGenerationStep(12)
                 .withIndexInPopulation(44)
                 .build();
-        solution.setFitness(Fitness.builder().withFitnessValue(0.1).withDurationInSeconds(10.0).build());
+        solution.setFitness(Fitness.builder().withFitnessValue(0.1).withRelevantValue(10.0).build());
         Population population = Population.builder()
                 .withGenerationStep(13)
                 .withSolutions(List.of(solution))
