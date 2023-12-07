@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 @Configuration
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix="cj.software.genetics.schedule.client")
+@ConfigurationProperties(prefix = "cj.software.genetics.schedule.client")
 @Validated
 @EnableAspectJAutoProxy
 public class ConfigurationHolder implements Serializable {
@@ -24,6 +24,10 @@ public class ConfigurationHolder implements Serializable {
     @Valid
     private Server server;
 
+    @NotNull
+    @Valid
+    private FitnessProcedureMapping fitnessProcedureMapping;
+
     ConfigurationHolder() {
     }
 
@@ -33,6 +37,14 @@ public class ConfigurationHolder implements Serializable {
 
     public void setServer(Server server) {
         this.server = server;
+    }
+
+    public FitnessProcedureMapping getFitnessProcedureMapping() {
+        return fitnessProcedureMapping;
+    }
+
+    public void setFitnessProcedureMapping(FitnessProcedureMapping fitnessProcedureMapping) {
+        this.fitnessProcedureMapping = fitnessProcedureMapping;
     }
 
     public static Builder builder() {
@@ -54,6 +66,11 @@ public class ConfigurationHolder implements Serializable {
 
         public Builder withServer(Server server) {
             instance.setServer(server);
+            return this;
+        }
+
+        public Builder withFitnessProcedureMapping(FitnessProcedureMapping fitnessProcedureMapping) {
+            instance.setFitnessProcedureMapping(fitnessProcedureMapping);
             return this;
         }
     }

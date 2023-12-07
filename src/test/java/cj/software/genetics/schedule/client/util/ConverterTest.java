@@ -81,7 +81,7 @@ class ConverterTest {
         SchedulingCreatePostInput converted = converter.toSchedulingProblemPostInput(uiModel);
         SchedulingProblem schedulingProblem = converted.getSchedulingProblem();
         SolutionSetup solutionSetup = converted.getSolutionSetup();
-        assertSolutionSetup(solutionSetup, 80, 2, FitnessProcedure.AVERAGE);
+        assertSolutionSetup(solutionSetup, 80, 2, FitnessProcedure.STD_DEVIATION);
         assertPrioritiesOther(schedulingProblem);
     }
 
@@ -93,7 +93,7 @@ class ConverterTest {
         IntegerProperty elitismCount = new SimpleIntegerProperty(2);
         IntegerProperty tournamentSize = new SimpleIntegerProperty(6);
         DoubleProperty mutationRate = new SimpleDoubleProperty(0.4);
-        ObjectProperty<FitnessProcedure> fitnessProcedure = new SimpleObjectProperty<>(FitnessProcedure.AVERAGE);
+        ObjectProperty<FitnessProcedure> fitnessProcedure = new SimpleObjectProperty<>(FitnessProcedure.STD_DEVIATION);
 
         SchedulingProblemUiModel result = new SchedulingProblemUiModel(
                 priorities, solutionsCount, workersCount, elitismCount, tournamentSize, mutationRate, fitnessProcedure);
@@ -291,7 +291,7 @@ class ConverterTest {
                 .withGenerationStep(12)
                 .withIndexInPopulation(44)
                 .build();
-        solution.setFitness(Fitness.builder().withFitnessValue(0.1).withDurationInSeconds(10.0).build());
+        solution.setFitness(Fitness.builder().withFitnessValue(0.1).withRelevantValue(10.0).build());
         Population population = Population.builder()
                 .withGenerationStep(13)
                 .withSolutions(List.of(solution))
@@ -320,7 +320,7 @@ class ConverterTest {
                 .withTournamentSize(6)
                 .withMutationRate(0.4)
                 .withPopulation(population)
-                .withFitnessProcedure(FitnessProcedure.AVERAGE)
+                .withFitnessProcedure(FitnessProcedure.STD_DEVIATION)
                 .build();
         assertBreedPostInput(model, 5, population, expected);
 

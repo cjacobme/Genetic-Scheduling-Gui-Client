@@ -3,3 +3,10 @@ cj.software.genetics.schedule.client:
   server:
     create-sub-path: /schedule/create
     breed-sub-path: /schedule/breed
+  fitness-procedure-mapping:
+    labels:
+      LATEST: "latest worker"
+      STD_DEVIATION: "standard deviation of all workers"
+    column-titles:
+      LATEST: "duration / s"
+      STD_DEVIATION: "Std deviation / s"

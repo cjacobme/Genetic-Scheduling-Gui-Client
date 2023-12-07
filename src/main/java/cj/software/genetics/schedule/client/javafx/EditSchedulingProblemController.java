@@ -1,6 +1,8 @@
 package cj.software.genetics.schedule.client.javafx;
 
 import cj.software.genetics.schedule.api.entity.FitnessProcedure;
+import cj.software.genetics.schedule.client.entity.configuration.ConfigurationHolder;
+import cj.software.genetics.schedule.client.entity.configuration.FitnessProcedureMapping;
 import cj.software.genetics.schedule.client.entity.ui.ColorPair;
 import cj.software.genetics.schedule.client.entity.ui.PriorityUiModel;
 import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
@@ -39,6 +41,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -51,6 +54,9 @@ public class EditSchedulingProblemController implements Initializable {
 
     @Autowired
     private NumberStringConverter numberStringConverter;
+
+    @Autowired
+    private ConfigurationHolder configurationHolder;
 
     @FXML
     private TableView<PriorityUiModel> tblPriorities;
@@ -159,10 +165,13 @@ public class EditSchedulingProblemController implements Initializable {
     }
 
     private void addFitnessProcedureValues() {
+        FitnessProcedureMapping mapping = configurationHolder.getFitnessProcedureMapping();
+        Map<FitnessProcedure, String> labels = mapping.getLabels();
         FitnessProcedure[] fitnessProcedures = FitnessProcedure.values();
         ObservableList<Node> children = fitnessProcedureParent.getChildren();
         for (FitnessProcedure fitnessProcedure : fitnessProcedures) {
-            RadioButton radioButton = new RadioButton(fitnessProcedure.toString());
+            String label = labels.get(fitnessProcedure);
+            RadioButton radioButton = new RadioButton(label);
             radioButton.setUserData(fitnessProcedure);
             radioButton.setToggleGroup(tgFitnessProcedures);
             children.add(radioButton);

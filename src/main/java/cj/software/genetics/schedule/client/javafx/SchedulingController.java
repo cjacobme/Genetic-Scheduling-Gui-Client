@@ -2,11 +2,14 @@ package cj.software.genetics.schedule.client.javafx;
 
 import cj.software.genetics.schedule.api.entity.BreedPostInput;
 import cj.software.genetics.schedule.api.entity.BreedPostOutput;
+import cj.software.genetics.schedule.api.entity.FitnessProcedure;
 import cj.software.genetics.schedule.api.entity.Population;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostInput;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostOutput;
 import cj.software.genetics.schedule.api.entity.Solution;
 import cj.software.genetics.schedule.client.Constants;
+import cj.software.genetics.schedule.client.entity.configuration.ConfigurationHolder;
+import cj.software.genetics.schedule.client.entity.configuration.FitnessProcedureMapping;
 import cj.software.genetics.schedule.client.entity.ui.ColorPair;
 import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
 import cj.software.genetics.schedule.client.javafx.control.SolutionPane;
@@ -71,6 +74,9 @@ public class SchedulingController implements Initializable {
     @Autowired
     private ColorService colorService;
 
+    @Autowired
+    private ConfigurationHolder configurationHolder;
+
     private final ObjectProperty<Population> population = new SimpleObjectProperty<>();
 
     private SchedulingProblemUiModel schedulingProblemUiModel;
@@ -100,7 +106,7 @@ public class SchedulingController implements Initializable {
     private TableColumn<Solution, String> tcolCycle;
 
     @FXML
-    private TableColumn<Solution, Double> tcolDuration;
+    private TableColumn<Solution, String> tcolRelevant;
 
     @FXML
     private Button btnSingleStep;
@@ -109,6 +115,8 @@ public class SchedulingController implements Initializable {
     private Button btnMultipleSteps;
 
     private Map<Integer, ColorPair> priorityColors;
+
+    private SolutionPane solutionPane;
 
     @FXML
     public void exit() {
@@ -134,6 +142,7 @@ public class SchedulingController implements Initializable {
                 setPopulation(returnedPopulation);
                 Stage stage = (Stage) btnMultipleSteps.getScene().getWindow();
                 stage.setTitle(String.format("Scheduling Problem %s", correlationId));
+                setRelevantColumnTitle();
                 btnMultipleSteps.requestFocus();
             } else {
                 logger.info("dialog was cancelled");
@@ -143,6 +152,14 @@ public class SchedulingController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
+    }
+
+    private void setRelevantColumnTitle() {
+        FitnessProcedure fitnessProcedure = this.schedulingProblemUiModel.getFitnessProcedure();
+        FitnessProcedureMapping mapping = this.configurationHolder.getFitnessProcedureMapping();
+        Map<FitnessProcedure, String> columnTitles = mapping.getColumnTitles();
+        String title = columnTitles.get(fitnessProcedure);
+        tcolRelevant.setText(title);
     }
 
     public void singleStep() {
@@ -165,6 +182,7 @@ public class SchedulingController implements Initializable {
             String correlationId = MDC.get(Constants.CORRELATION_ID_KEY);
             BreedPostOutput breedPostOutput = serverApi.breed(breedPostInput, correlationId);
             this.setPopulation(breedPostOutput.getPopulation());
+            solutionPane.setStatus("breed result returned from server");
         } catch (RuntimeException exception) {
             logger.error(exception.getMessage(), exception);
             Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage(), ButtonType.OK);
@@ -195,7 +213,7 @@ public class SchedulingController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        SolutionPane solutionPane = new SolutionPane(colorService);
+        solutionPane = new SolutionPane(colorService);
         scrollPane.setContent(solutionPane);
         tfStatus.textProperty().bind(solutionPane.statusProperty());
         ObjectProperty<Population> property = populationProperty();
@@ -205,8 +223,9 @@ public class SchedulingController implements Initializable {
         tcolCycle.setCellValueFactory(new PropertyValueFactory<>("generationStep"));
         String tableColStyle = "-fx-alignment: CENTER-RIGHT;-fx-font-family: Monospaced Regular;";
         tcolCycle.setStyle(tableColStyle);
-        tcolDuration.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getFitness().getDurationInSeconds()));
-        tcolDuration.setStyle(tableColStyle);
+        tcolRelevant.setCellValueFactory(cellData -> new SimpleObjectProperty<>(
+                String.format("%8.3f", cellData.getValue().getFitness().getRelevantValue())));
+        tcolRelevant.setStyle(tableColStyle);
         spNumCycles.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000, 30));
         int scaleValue = spScale.valueProperty().intValue();
         lbScale.setText(String.format("%d", scaleValue));
