@@ -47,8 +47,8 @@
             <TableView fx:id="tblSolutions" maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="175.0">
                 <columns>
                     <TableColumn fx:id="tcolCycle" editable="false" prefWidth="75.0" sortable="false" text="Cycle"/>
-                    <TableColumn fx:id="tcolDuration" editable="false" maxWidth="1.7976931348623157E308"
-                                 prefWidth="110.0" sortable="false" text="Duration / s"/>
+                    <TableColumn fx:id="tcolRelevant" editable="false" maxWidth="1.7976931348623157E308"
+                                 prefWidth="110.0" sortable="false" text="relevant value"/>
                 </columns>
             </TableView>
         </VBox>
