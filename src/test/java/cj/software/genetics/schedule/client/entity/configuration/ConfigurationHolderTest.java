@@ -60,17 +60,25 @@ class ConfigurationHolderTest {
 
         Object instanceAfter = field.get(builder);
         assertThat(instanceAfter).as("instance in builder after build").isNull();
-        assertThat(instance.getServer()).as("server").isNull();
+        SoftAssertions softy = new SoftAssertions();
+        softy.assertThat(instance.getServer()).as("server").isNull();
+        softy.assertThat(instance.getFitnessProcedureMapping()).as("fitness procedure mapping").isNull();
+        softy.assertAll();
     }
 
     @Test
     void constructFilled() {
         Server server = Server.builder().build();
+        FitnessProcedureMapping fitnessProcedureMapping = FitnessProcedureMapping.builder().build();
         ConfigurationHolder instance = ConfigurationHolder.builder()
                 .withServer(server)
+                .withFitnessProcedureMapping(fitnessProcedureMapping)
                 .build();
         assertThat(instance).as("built instance").isNotNull();
-        assertThat(instance.getServer()).as("server").isSameAs(server);
+        SoftAssertions softy = new SoftAssertions();
+        softy.assertThat(instance.getServer()).as("server").isSameAs(server);
+        softy.assertThat(instance.getFitnessProcedureMapping()).isSameAs(fitnessProcedureMapping);
+        softy.assertAll();
     }
 
     @Test
