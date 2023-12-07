@@ -1,9 +1,12 @@
 package cj.software.genetics.schedule.client.entity.ui;
 
+import cj.software.genetics.schedule.api.entity.FitnessProcedure;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -21,19 +24,23 @@ public class SchedulingProblemUiModel {
 
     private final DoubleProperty mutationRate;
 
+    private final ObjectProperty<FitnessProcedure> fitnessProcedure;
+
     public SchedulingProblemUiModel(
             ObservableList<PriorityUiModel> priorities,
             IntegerProperty solutionCount,
             IntegerProperty workerCount,
             IntegerProperty elitismCount,
             IntegerProperty tournameSize,
-            DoubleProperty mutationRate) {
+            DoubleProperty mutationRate,
+            ObjectProperty<FitnessProcedure> fitnessProcedure) {
         this.priorities = priorities;
         this.solutionCount = solutionCount;
         this.workerCount = workerCount;
         this.elitismCount = elitismCount;
         this.tournamentSize = tournameSize;
         this.mutationRate = mutationRate;
+        this.fitnessProcedure = fitnessProcedure;
     }
 
     /**
@@ -46,6 +53,7 @@ public class SchedulingProblemUiModel {
         this.elitismCount = new SimpleIntegerProperty(source.getElitismCount());
         this.tournamentSize = new SimpleIntegerProperty(source.getTournamentSize());
         this.mutationRate = new SimpleDoubleProperty(source.getMutationRate());
+        this.fitnessProcedure = new SimpleObjectProperty<>(source.getFitnessProcedure());
     }
 
     private ObservableList<PriorityUiModel> copyPriorities(ObservableList<PriorityUiModel> source) {
@@ -123,5 +131,17 @@ public class SchedulingProblemUiModel {
 
     public void setMutationRate(double mutationRate) {
         this.mutationRate.set(mutationRate);
+    }
+
+    public FitnessProcedure getFitnessProcedure() {
+        return fitnessProcedure.get();
+    }
+
+    public ObjectProperty<FitnessProcedure> fitnessProcedureProperty() {
+        return fitnessProcedure;
+    }
+
+    public void setFitnessProcedure(FitnessProcedure fitnessProcedure) {
+        this.fitnessProcedure.set(fitnessProcedure);
     }
 }

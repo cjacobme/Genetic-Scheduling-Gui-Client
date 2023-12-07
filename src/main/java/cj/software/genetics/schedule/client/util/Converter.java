@@ -1,6 +1,7 @@
 package cj.software.genetics.schedule.client.util;
 
 import cj.software.genetics.schedule.api.entity.BreedPostInput;
+import cj.software.genetics.schedule.api.entity.FitnessProcedure;
 import cj.software.genetics.schedule.api.entity.Population;
 import cj.software.genetics.schedule.api.entity.ProblemPriority;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostInput;
@@ -38,12 +39,14 @@ public class Converter {
         int elitismCount = schedulingProblemUiModel.getElitismCount();
         int tournamentSize = schedulingProblemUiModel.getTournamentSize();
         double mutationRate = schedulingProblemUiModel.getMutationRate();
+        FitnessProcedure fitnessProcedure = schedulingProblemUiModel.getFitnessProcedure();
         BreedPostInput result = BreedPostInput.builder()
                 .withNumSteps(numSteps)
                 .withElitismCount(elitismCount)
                 .withTournamentSize(tournamentSize)
                 .withMutationRate(mutationRate)
                 .withPopulation(population)
+                .withFitnessProcedure(fitnessProcedure)
                 .build();
         return result;
     }
@@ -122,9 +125,11 @@ public class Converter {
     private SolutionSetup toSolutionSetup(SchedulingProblemUiModel uiModel) {
         int solutionCount = uiModel.getSolutionCount();
         int workerCount = uiModel.getWorkerCount();
+        FitnessProcedure fitnessProcedure = uiModel.getFitnessProcedure();
         SolutionSetup result = SolutionSetup.builder()
                 .withSolutionCount(solutionCount)
                 .withWorkersPerSolutionCount(workerCount)
+                .withFitnessProcedure(fitnessProcedure)
                 .build();
         return result;
     }

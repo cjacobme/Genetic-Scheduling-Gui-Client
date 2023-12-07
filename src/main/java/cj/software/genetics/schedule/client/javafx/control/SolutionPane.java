@@ -129,13 +129,20 @@ public class SolutionPane extends Pane {
 
     private void draw(SortedSet<SolutionPriority> priorities, double posY, ObservableList<Node> children) {
         double posX = WORKER_LABEL_WIDTH + 20;
+        int totalDuration = 0;
+        DrawSolutionResult drawSolutionResult = new DrawSolutionResult(posX, totalDuration);
         for (SolutionPriority solutionPriority : priorities) {
-            posX = draw(solutionPriority, posX, posY, children);
+            drawSolutionResult = draw(solutionPriority, drawSolutionResult, posY, children);
         }
     }
 
-    private double draw(SolutionPriority priority, double posX, double posY, ObservableList<Node> children) {
-        double result = posX;
+    private record DrawSolutionResult(double posX, int totalDurationSeconds) {
+
+    }
+
+    private DrawSolutionResult draw(SolutionPriority priority, DrawSolutionResult drawSolutionResult, double posY, ObservableList<Node> children) {
+        double posX = drawSolutionResult.posX();
+        int totalDuration = drawSolutionResult.totalDurationSeconds();
         SortedMap<Integer, Task> tasks = priority.getTasks();
         int priorityValue = priority.getValue();
         ColorPair colorPair = priorityColors.get(priorityValue);
@@ -147,17 +154,24 @@ public class SolutionPane extends Pane {
             String text = String.format("%d (%s)", identifier, duration);
             Button button = new Button(text);
             button.setStyle(style);
-            double width = duration.toSeconds() * (double) getScale();
-            button.setLayoutX(result);
+            int durationSeconds = duration.toSeconds();
+            totalDuration += durationSeconds;
+            double width = durationSeconds * (double) getScale();
+            button.setLayoutX(posX);
             button.setLayoutY(posY);
             button.setMinWidth(width);
             button.setPrefWidth(width);
             button.setMaxWidth(width);
             children.add(button);
             myChildren.add(button);
-            button.setOnAction(event -> setStatus(task.toString()));
-            result += width + 2.0;
+            int finalTotalDuration = totalDuration;
+            button.setOnAction(event -> {
+                String message = String.format("%s end / s = %d", task, finalTotalDuration);
+                setStatus(message);
+            });
+            posX += width;
         }
+        DrawSolutionResult result = new DrawSolutionResult(posX, totalDuration);
         return result;
     }
 

@@ -1,6 +1,8 @@
 package cj.software.genetics.schedule.client.util;
 
 import cj.software.genetics.schedule.api.entity.BreedPostInput;
+import cj.software.genetics.schedule.api.entity.Fitness;
+import cj.software.genetics.schedule.api.entity.FitnessProcedure;
 import cj.software.genetics.schedule.api.entity.Population;
 import cj.software.genetics.schedule.api.entity.ProblemPriority;
 import cj.software.genetics.schedule.api.entity.SchedulingCreatePostInput;
@@ -15,6 +17,7 @@ import cj.software.genetics.schedule.client.entity.ui.SchedulingProblemUiModel;
 import cj.software.genetics.schedule.client.entity.ui.TasksUiModel;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -67,7 +70,7 @@ class ConverterTest {
         softy.assertThat(schedulingProblem).as("scheduling problem").isNotNull();
         softy.assertThat(solutionSetup).as("solution setup").isNotNull();
         softy.assertAll();
-        assertSolutionSetup(solutionSetup, 100, 5);
+        assertSolutionSetup(solutionSetup, 100, 5, FitnessProcedure.LATEST);
         assertPrioritiesStandard(schedulingProblem);
     }
 
@@ -78,7 +81,7 @@ class ConverterTest {
         SchedulingCreatePostInput converted = converter.toSchedulingProblemPostInput(uiModel);
         SchedulingProblem schedulingProblem = converted.getSchedulingProblem();
         SolutionSetup solutionSetup = converted.getSolutionSetup();
-        assertSolutionSetup(solutionSetup, 80, 2);
+        assertSolutionSetup(solutionSetup, 80, 2, FitnessProcedure.AVERAGE);
         assertPrioritiesOther(schedulingProblem);
     }
 
@@ -90,9 +93,10 @@ class ConverterTest {
         IntegerProperty elitismCount = new SimpleIntegerProperty(2);
         IntegerProperty tournamentSize = new SimpleIntegerProperty(6);
         DoubleProperty mutationRate = new SimpleDoubleProperty(0.4);
+        ObjectProperty<FitnessProcedure> fitnessProcedure = new SimpleObjectProperty<>(FitnessProcedure.AVERAGE);
 
         SchedulingProblemUiModel result = new SchedulingProblemUiModel(
-                priorities, solutionsCount, workersCount, elitismCount, tournamentSize, mutationRate);
+                priorities, solutionsCount, workersCount, elitismCount, tournamentSize, mutationRate, fitnessProcedure);
         return result;
     }
 
@@ -107,10 +111,11 @@ class ConverterTest {
         return result;
     }
 
-    private void assertSolutionSetup(SolutionSetup solutionSetup, int expSolutionsCount, int expWorkersCount) {
+    private void assertSolutionSetup(SolutionSetup solutionSetup, int expSolutionsCount, int expWorkersCount, FitnessProcedure expFitnessProcedure) {
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(solutionSetup.getSolutionCount()).as("solution count").isEqualTo(expSolutionsCount);
         softy.assertThat(solutionSetup.getWorkersPerSolutionCount()).as("workers count").isEqualTo(expWorkersCount);
+        softy.assertThat(solutionSetup.getFitnessProcedure()).as("fitness procedure").isEqualTo(expFitnessProcedure);
         softy.assertAll();
     }
 
@@ -282,21 +287,23 @@ class ConverterTest {
     @Test
     void toBreedPostInputStandard() {
         SchedulingProblemUiModel model = schedulingProblemService.createDefault();
+        Solution solution = Solution.builder()
+                .withGenerationStep(12)
+                .withIndexInPopulation(44)
+                .build();
+        solution.setFitness(Fitness.builder().withFitnessValue(0.1).withDurationInSeconds(10.0).build());
         Population population = Population.builder()
                 .withGenerationStep(13)
-                .withSolutions(List.of(
-                        Solution.builder().
-                                withGenerationStep(12)
-                                .withFitnessValue(0.1)
-                                .withIndexInPopulation(44)
-                                .build()))
+                .withSolutions(List.of(solution))
                 .build();
+
         BreedPostInput expected = BreedPostInput.builder()
                 .withNumSteps(2)
                 .withElitismCount(3)
                 .withTournamentSize(10)
                 .withMutationRate(0.1)
                 .withPopulation(population)
+                .withFitnessProcedure(FitnessProcedure.LATEST)
                 .build();
         assertBreedPostInput(model, 2, population, expected);
     }
@@ -313,6 +320,7 @@ class ConverterTest {
                 .withTournamentSize(6)
                 .withMutationRate(0.4)
                 .withPopulation(population)
+                .withFitnessProcedure(FitnessProcedure.AVERAGE)
                 .build();
         assertBreedPostInput(model, 5, population, expected);
 

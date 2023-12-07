@@ -100,7 +100,7 @@ public class SchedulingController implements Initializable {
     private TableColumn<Solution, String> tcolCycle;
 
     @FXML
-    private TableColumn<Solution, Long> tcolDuration;
+    private TableColumn<Solution, Double> tcolDuration;
 
     @FXML
     private Button btnSingleStep;
@@ -205,7 +205,7 @@ public class SchedulingController implements Initializable {
         tcolCycle.setCellValueFactory(new PropertyValueFactory<>("generationStep"));
         String tableColStyle = "-fx-alignment: CENTER-RIGHT;-fx-font-family: Monospaced Regular;";
         tcolCycle.setStyle(tableColStyle);
-        tcolDuration.setCellValueFactory(new PropertyValueFactory<>("durationInSeconds"));
+        tcolDuration.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getFitness().getDurationInSeconds()));
         tcolDuration.setStyle(tableColStyle);
         spNumCycles.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000, 30));
         int scaleValue = spScale.valueProperty().intValue();
