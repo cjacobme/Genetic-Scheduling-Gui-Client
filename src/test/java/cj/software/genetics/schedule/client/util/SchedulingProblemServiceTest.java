@@ -51,7 +51,6 @@ class SchedulingProblemServiceTest {
         ObservableList<TasksUiModel> tasks = model.getTasks();
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(model.getValue()).as("value").isEqualTo(1);
-        softy.assertThat(model.getSlotCount()).as("slot count").isEqualTo(500);
         softy.assertThat(model.getColorPair())
                 .as("color pair")
                 .usingRecursiveComparison()
@@ -69,7 +68,6 @@ class SchedulingProblemServiceTest {
         ObservableList<TasksUiModel> tasks = model.getTasks();
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(model.getValue()).as("value").isEqualTo(2);
-        softy.assertThat(model.getSlotCount()).as("slot count").isEqualTo(100);
         softy.assertThat(model.getColorPair())
                 .as("color pair")
                 .usingRecursiveComparison()
@@ -86,7 +84,6 @@ class SchedulingProblemServiceTest {
         ObservableList<TasksUiModel> tasks = model.getTasks();
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(model.getValue()).as("value").isEqualTo(3);
-        softy.assertThat(model.getSlotCount()).as("slot count").isEqualTo(150);
         softy.assertThat(model.getColorPair())
                 .as("color pair")
                 .usingRecursiveComparison()

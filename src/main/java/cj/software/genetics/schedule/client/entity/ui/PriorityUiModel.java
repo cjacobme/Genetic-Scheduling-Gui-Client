@@ -11,15 +11,12 @@ public class PriorityUiModel {
 
     private final IntegerProperty value;
 
-    private final IntegerProperty slotCount;
-
     private final ObjectProperty<ColorPair> colorPair;
 
     private ObservableList<TasksUiModel> tasks;
 
-    public PriorityUiModel(IntegerProperty value, IntegerProperty slotCount, ObjectProperty<ColorPair> colorPair, ObservableList<TasksUiModel> tasks) {
+    public PriorityUiModel(IntegerProperty value, ObjectProperty<ColorPair> colorPair, ObservableList<TasksUiModel> tasks) {
         this.value = value;
-        this.slotCount = slotCount;
         this.colorPair = colorPair;
         this.tasks = tasks;
     }
@@ -29,7 +26,6 @@ public class PriorityUiModel {
      */
     public PriorityUiModel(PriorityUiModel source) {
         this.value = new SimpleIntegerProperty(source.getValue());
-        this.slotCount = new SimpleIntegerProperty(source.getSlotCount());
         this.colorPair = new SimpleObjectProperty<>(new ColorPair(source.getColorPair()));
         this.tasks = copyTasks(source.getTasks());
     }
@@ -53,18 +49,6 @@ public class PriorityUiModel {
 
     public void setValue(int value) {
         this.value.set(value);
-    }
-
-    public int getSlotCount() {
-        return slotCount.get();
-    }
-
-    public IntegerProperty slotCountProperty() {
-        return slotCount;
-    }
-
-    public void setSlotCount(int slotCount) {
-        this.slotCount.set(slotCount);
     }
 
     public ColorPair getColorPair() {

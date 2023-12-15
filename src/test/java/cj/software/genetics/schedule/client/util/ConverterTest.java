@@ -105,7 +105,6 @@ class ConverterTest {
         ObservableList<TasksUiModel> tasks = FXCollections.observableArrayList(tasks0);
         PriorityUiModel result = new PriorityUiModel(
                 new SimpleIntegerProperty(7),
-                new SimpleIntegerProperty(150),
                 new SimpleObjectProperty<>(new ColorPair(new SimpleObjectProperty<>(Color.CYAN), new SimpleObjectProperty<>(Color.ORANGE))),
                 tasks);
         return result;
@@ -140,7 +139,6 @@ class ConverterTest {
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(problemPriority.getValue()).isEqualTo(1);
         softy.assertThat(problemPriority.getTasks()).hasSize(40);
-        softy.assertThat(problemPriority.getSlotCount()).isEqualTo(500);
         softy.assertAll();
         softy = new SoftAssertions();
         TimeWithUnit seconds10 = TimeWithUnit.ofSeconds(10);
@@ -176,7 +174,6 @@ class ConverterTest {
         SoftAssertions softy = new SoftAssertions();
         softy.assertThat(problemPriority.getValue()).isEqualTo(2);
         softy.assertThat(problemPriority.getTasks()).hasSize(30);
-        softy.assertThat(problemPriority.getSlotCount()).isEqualTo(100);
         softy.assertAll();
         TimeWithUnit seconds10 = TimeWithUnit.ofSeconds(10);
         TimeWithUnit seconds30 = TimeWithUnit.ofSeconds(30);

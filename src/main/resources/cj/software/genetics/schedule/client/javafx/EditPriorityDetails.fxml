@@ -28,15 +28,12 @@
                         <Label text="Priority:"/>
                         <TextField fx:id="tfPriority" alignment="CENTER_RIGHT" editable="false" GridPane.columnIndex="1"
                                    GridPane.columnSpan="2147483647"/>
-                        <Label text="Number of Slots:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                        <TextField fx:id="tfNumSlots" alignment="CENTER_RIGHT" GridPane.columnIndex="1"
-                                   GridPane.columnSpan="2147483647" GridPane.rowIndex="1"/>
-                        <Label text="Colors:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                        <Button fx:id="btnSample" text="Sample" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <Label text="Colors:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Button fx:id="btnSample" text="Sample" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                         <ColorPicker fx:id="cpBackground" onAction="#colorsChanged" promptText="background"
-                                     GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                                     GridPane.columnIndex="2" GridPane.rowIndex="1"/>
                         <ColorPicker fx:id="cpForeground" onAction="#colorsChanged" promptText="foreground"
-                                     GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+                                     GridPane.columnIndex="3" GridPane.rowIndex="1"/>
                         <columnConstraints>
                             <ColumnConstraints/>
                             <ColumnConstraints/>

@@ -46,9 +46,6 @@ public class EditPriorityDetailsController implements Initializable {
     private TextField tfPriority;
 
     @FXML
-    private TextField tfNumSlots;
-
-    @FXML
     private Button btnSample;
 
     @FXML
@@ -86,7 +83,6 @@ public class EditPriorityDetailsController implements Initializable {
     public void setData(PriorityUiModel priorityUiModel) {
         this.priorityUiModel = priorityUiModel;
         Bindings.bindBidirectional(tfPriority.textProperty(), this.priorityUiModel.valueProperty(), numberStringConverter);
-        Bindings.bindBidirectional(tfNumSlots.textProperty(), this.priorityUiModel.slotCountProperty(), numberStringConverter);
         ColorPair colorPair = priorityUiModel.getColorPair();
         cpBackground.valueProperty().bindBidirectional(colorPair.backgroundProperty());
         cpForeground.valueProperty().bindBidirectional(colorPair.foregroundProperty());
