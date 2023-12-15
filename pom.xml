@@ -12,7 +12,7 @@
 
     <groupId>cj.software.experiments.genetics.schedule</groupId>
     <artifactId>schedule-gui-client</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-RC02</version>
     <name>Genetic Scheduling GUI client</name>
     <description>GUI client to demonstrate the work with the Genetic Scheduling Server</description>
 
@@ -28,6 +28,14 @@
         <javafx.version>20.0.2</javafx.version>
         <javafx-weaver.version>1.3.0</javafx-weaver.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>github</id>
+            <name>Github</name>
+            <url>https://maven.pkg.github.com/cjacobme/Genetic-Scheduling-Api</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <!-- application -->
