@@ -71,9 +71,6 @@ public class EditSchedulingProblemController implements Initializable {
     private TableColumn<PriorityUiModel, ObservableList<TasksUiModel>> tcolTasks;
 
     @FXML
-    private TableColumn<PriorityUiModel, IntegerProperty> tcolSlotCount;
-
-    @FXML
     private Button btnAdd;
 
     @FXML
@@ -154,7 +151,6 @@ public class EditSchedulingProblemController implements Initializable {
         tcolPriorityValue.setCellValueFactory(new PropertyValueFactory<>("value"));
         tcolColors.setCellFactory(new ColorsTableCellFactory());
         tcolTasks.setCellFactory(new TasksSubTableCellFactory());
-        tcolSlotCount.setCellValueFactory(new PropertyValueFactory<>("slotCount"));
         btnDelete.disableProperty().bind(Bindings.isEmpty(tblPriorities.getSelectionModel().getSelectedItems()));
         btnEdit.disableProperty().bind(Bindings.isEmpty(tblPriorities.getSelectionModel().getSelectedItems()));
         TextField spinnerTf = spMutationRate.editorProperty().get();
@@ -184,13 +180,11 @@ public class EditSchedulingProblemController implements Initializable {
         ObservableList<PriorityUiModel> items = tblPriorities.getItems();
         int size = items.size();
         IntegerProperty valueProperty = new SimpleIntegerProperty(size + 1);
-        IntegerProperty slotCountProperty = new SimpleIntegerProperty();
         ColorPair colorPair = new ColorPair(new SimpleObjectProperty<>(Color.BLACK), new SimpleObjectProperty<>(Color.WHITE));
         ObjectProperty<ColorPair> colorPairProperty = new SimpleObjectProperty<>(colorPair);
         ObservableList<TasksUiModel> tasksList = FXCollections.observableArrayList();
         PriorityUiModel priorityUiModel = new PriorityUiModel(
                 valueProperty,
-                slotCountProperty,
                 colorPairProperty,
                 tasksList);
         EditPriorityDetailsDialog dialog = new EditPriorityDetailsDialog(applicationContext, owner, priorityUiModel);

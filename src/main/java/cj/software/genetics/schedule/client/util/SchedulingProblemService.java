@@ -54,7 +54,6 @@ public class SchedulingProblemService {
         ObservableList<TasksUiModel> tasks = FXCollections.observableArrayList(tasks0, tasks1, tasks2);
         PriorityUiModel result = new PriorityUiModel(
                 new SimpleIntegerProperty(1),
-                new SimpleIntegerProperty(500),
                 new SimpleObjectProperty<>(new ColorPair(new SimpleObjectProperty<>(Color.BLACK), new SimpleObjectProperty<>(Color.RED))),
                 tasks);
         return result;
@@ -66,7 +65,6 @@ public class SchedulingProblemService {
         ObservableList<TasksUiModel> tasks = FXCollections.observableArrayList(tasks0, tasks1);
         PriorityUiModel result = new PriorityUiModel(
                 new SimpleIntegerProperty(2),
-                new SimpleIntegerProperty(100),
                 new SimpleObjectProperty<>(new ColorPair(new SimpleObjectProperty<>(Color.BLACK), new SimpleObjectProperty<>(Color.YELLOW))),
                 tasks);
         return result;
@@ -77,7 +75,6 @@ public class SchedulingProblemService {
         ObservableList<TasksUiModel> tasks = FXCollections.observableArrayList(tasks0);
         PriorityUiModel result = new PriorityUiModel(
                 new SimpleIntegerProperty(3),
-                new SimpleIntegerProperty(150),
                 new SimpleObjectProperty<>(new ColorPair(new SimpleObjectProperty<>(Color.YELLOW), new SimpleObjectProperty<>(Color.GREEN))),
                 tasks);
         return result;
