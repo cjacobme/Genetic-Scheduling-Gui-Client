@@ -8,9 +8,11 @@ public class FitnessProcedureMappingBuilder extends FitnessProcedureMapping.Buil
     public FitnessProcedureMappingBuilder() {
         super.withColumnTitles(Map.of(
                         FitnessProcedure.LATEST, "Duration / s",
-                        FitnessProcedure.STD_DEVIATION, "Standard Deviation"))
+                        FitnessProcedure.STD_DEVIATION, "Standard Deviation",
+                        FitnessProcedure.SQUARED, "Squared"))
                 .withLabels(Map.of(
                         FitnessProcedure.LATEST, "Duration",
-                        FitnessProcedure.STD_DEVIATION, "Standard deviation"));
+                        FitnessProcedure.STD_DEVIATION, "Standard deviation",
+                        FitnessProcedure.SQUARED, "Squared"));
     }
 }

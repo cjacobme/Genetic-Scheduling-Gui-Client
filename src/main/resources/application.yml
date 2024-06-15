@@ -7,6 +7,8 @@ cj.software.genetics.schedule.client:
     labels:
       LATEST: "latest worker"
       STD_DEVIATION: "standard deviation of all workers"
+      SQUARED: "squared sum over all priorities"
     column-titles:
       LATEST: "duration / s"
       STD_DEVIATION: "Std deviation / s"
+      SQUARED: "Squared / s"
